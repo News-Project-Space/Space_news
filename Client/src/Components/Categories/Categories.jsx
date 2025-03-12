@@ -2,9 +2,7 @@ import React from 'react'
 
 function Categories() {
   return (
-    <div>
-      
-    </div>
+    <div>Categories</div>
   )
 }
 
