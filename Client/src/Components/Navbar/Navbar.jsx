@@ -211,6 +211,7 @@ const Navbar = ({ user, handleLogout }) => {
         )}
       </nav>
       <Outlet />
+      
     </>
   );
 };
