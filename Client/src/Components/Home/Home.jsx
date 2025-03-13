@@ -8,9 +8,10 @@ function Home() {
   return (
     <>
     <HeroSection/>
-    <CtaSection/>
+
     <VideoSection/>
     <Categories/>
+    <CtaSection/>
     </>
   )
 }
