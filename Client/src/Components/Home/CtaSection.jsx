@@ -49,6 +49,7 @@ const CtaSection = () => {
                 to="/ToBeJournalist"
                 className="flex items-center justify-center bg-white hover:bg-yellow-400 transition-colors duration-300 text-black font-bold py-3 px-6 rounded-full"
               >
+                
                  Become a Journalist
               </Link>
             </div>
