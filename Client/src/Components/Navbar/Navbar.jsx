@@ -77,6 +77,7 @@ const Navbar = () => {
         )}
       </nav>
       <Outlet />
+      
     </>
   );
 };

@@ -1,8 +1,13 @@
 import React from 'react'
+import VideoSection from './VideoSection'
+import Categories from './Categories'
 
 function Home() {
   return (
-    <div>Home</div>
+    <>
+    <VideoSection/>
+    <Categories/>
+    </>
   )
 }
 
