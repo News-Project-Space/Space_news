@@ -20,8 +20,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json()); // Parse JSON data
-app.use(express.urlencoded({ extended: true })); // Parse form data
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
 
 // Connect to MongoDB
 connectDB();
