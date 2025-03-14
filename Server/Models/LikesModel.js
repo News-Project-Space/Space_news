@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const LikeSchema = new mongoose.Schema(
     {
       articleId: { type: mongoose.Schema.Types.ObjectId, ref: "Article", required: true, index: true },
