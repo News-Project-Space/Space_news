@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const jwt = require("jsonwebtoken"); 
 const cookiesParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-
+const articleRoutes = require("./Routes/articlesRoute");
 
 
 const app = express();
@@ -22,6 +22,7 @@ app.use(
 );
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+app.use("/api/articles", articleRoutes);
 
 // Connect to MongoDB
 connectDB();
