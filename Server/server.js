@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: "http://localhost:5174", 
+    origin: "http://localhost:5173", 
     credentials: true,
   })
 );
@@ -28,6 +28,10 @@ app.use("/api/articles", articleRoutes);
 connectDB();
 
 // Routes
+const journalistRouter = require('./Routes/journalistRouter');
+const authMiddleware = require('./middlewares/authMiddleware');
+
+app.use('/api', journalistRouter);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
