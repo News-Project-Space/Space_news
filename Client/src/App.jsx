@@ -14,6 +14,7 @@ import {
   ToBeJournalist,
   PageNotFound
 } from "./components";
+import Footer from "./Components/Footer/Footer";
 function App() {
   const router = createBrowserRouter([
     {
@@ -24,6 +25,7 @@ function App() {
           index: true,
           element: <Home />
         },
+        
         {
           path: '/',
           element: <Home />,
@@ -72,12 +74,14 @@ function App() {
       path: '/Register',
       element: <Register />
     }
+    
   ])
 
 
   return (
     <>
       <RouterProvider router={router} />
+      <Footer/>
     </>
   )
 }
