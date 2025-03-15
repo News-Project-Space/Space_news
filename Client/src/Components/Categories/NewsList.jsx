@@ -39,7 +39,7 @@ const NewsList = () => {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/articles/filter", {
+        const response = await axios.get("http://localhost:8000/api/articles/filter", {
           params: {
             page: currentPage,
             limit: itemsPerPage,

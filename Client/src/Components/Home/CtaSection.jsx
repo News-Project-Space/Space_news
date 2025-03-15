@@ -34,7 +34,7 @@ const CtaSection = () => {
               Moon, the Solar System and beyond.
             </p>
             <p className="text-white text-sm mb-6">
-              We will never share your email address. <Link to="/privacy" className="underline hover:text-yellow-300">Privacy Policy</Link>
+              
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mt-6">
