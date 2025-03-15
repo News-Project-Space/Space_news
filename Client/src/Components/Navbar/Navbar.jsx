@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
-import { FaRegHeart, FaBars, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userId = useSelector((state) => state.user.userId);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -17,7 +19,7 @@ const Navbar = () => {
     { path: "/Contact", label: "Contact" },
     { path: "/About", label: "About" },
     { path: "/ToBeJournalist", label: "To Be a Journalist" },
-    { path: "/Profile", label: "Profile" },
+    { path: `/Profile/${userId}`, label: "Profile" },
     { path: "/NewsArticleCreation", label: "Create News Article" },
     { path: "/login", label: "Login" },
     { path: "/Register", label: "Register" },
