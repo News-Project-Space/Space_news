@@ -7,7 +7,7 @@ const NewsArticleCreation = () => {
     content: "",
     category: "",
     tags: "",
-    featuredImages: [], 
+    featuredImage: [], 
     featuredVideo: "",
   });
   const [error, setError] = useState("");
@@ -24,13 +24,20 @@ const NewsArticleCreation = () => {
       setError("User not authenticated.");
       return;
     }
-    setAuthorId(token);
+  
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1])); 
+      setAuthorId(decodedToken._id); 
+    } catch (err) {
+      setError("Invalid token.");
+    }
   };
+  
 
   
   const handleChange = (e) => {
-    if (e.target.name === "featuredImages") {
-      setFormData({ ...formData, featuredImages: [...e.target.files] }); 
+    if (e.target.name === "featuredImage") {
+      setFormData({ ...formData, featuredImage: [...e.target.files] }); 
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
@@ -59,8 +66,8 @@ const NewsArticleCreation = () => {
       data.append("authorId", authorId);
 
      
-      formData.featuredImages.forEach((image) => {
-        data.append("featuredImages", image);
+      formData.featuredImage.forEach((image) => {
+        data.append("featuredImage", image);
       });
 
       const response = await axios.post("http://localhost:8000/api/articles/create", data, {
@@ -76,7 +83,7 @@ const NewsArticleCreation = () => {
         content: "",
         category: "",
         tags: "",
-        featuredImages: [],
+        featuredImage: [],
         featuredVideo: "",
       });
     } catch (err) {
@@ -175,7 +182,7 @@ const NewsArticleCreation = () => {
             </label>
             <input
               type="file"
-              name="featuredImages"
+              name="featuredImage"
               accept="image/*"
               multiple 
               onChange={handleChange}
