@@ -12,5 +12,5 @@ const JournalistSchema = new mongoose.Schema(
     { timestamps: true }
   );
   
-  module.exports = mongoose.model("Journalist", JournalistSchema);
+  module.exports = mongoose.model("Journalists", JournalistSchema);
   

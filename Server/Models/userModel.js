@@ -1,3 +1,20 @@
+// const mongoose = require('mongoose');
+
+// const UserSchema = new mongoose.Schema(
+//   {
+//     fullName: { type: String, required: true },
+//     email: { type: String, required: true, unique: true },
+//     password: { type: String, required: true },
+//     role: { type: String, enum: ["reader", "journalist", "admin"], default: "reader" },
+//     profilePicture: { type: String, default: "" },
+//     preferences: {type: [String], default: [] },
+//   },
+//   { timestamps: true }
+// );
+
+// module.exports = mongoose.model("User", UserSchema);
+
+
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema(
@@ -7,9 +24,12 @@ const UserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: { type: String, enum: ["reader", "journalist", "admin"], default: "reader" },
     profilePicture: { type: String, default: "" },
-    preferences: {type: [String], default: [] },
+    preferences: { type: [String], default: [] },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", UserSchema);
+// التحقق مما إذا كان النموذج موجودًا بالفعل قبل تعريفه
+const User = mongoose.models.User || mongoose.model("User", UserSchema);
+
+module.exports = User;

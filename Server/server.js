@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: ["http://localhost:5174/", "http://localhost:5173/"], // ✅ Allow both ports
+    origin: ["http://localhost:5174", "http://localhost:5173"], // ✅ Allow both ports
     credentials: true,
   })
 );
@@ -35,7 +35,7 @@ connectDB();
 const journalistRouter = require('./Routes/journalistRouter');
 const authMiddleware = require('./middlewares/authMiddleware');
 
-app.use('/api', journalistRouter);
+app.use("/api", journalistRouter);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");

@@ -13,7 +13,7 @@ import {
   Register,
   ToBeJournalist,
   PageNotFound
-} from "./components";
+} from "./Components";
 import Footer from "./Components/Footer/Footer";
 function App() {
   const router = createBrowserRouter([

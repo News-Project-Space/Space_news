@@ -1,4 +1,5 @@
 const Journalist = require('../Models/JournalistModel');
+const User = require('../Models/userModel'); // تأكد من استيراد نموذج المستخدم
 const multer = require('multer');
 const path = require('path');
 
@@ -17,13 +18,21 @@ const upload = multer({ storage: storage });
 // دالة لإنشاء صحفي جديد
 exports.createJournalist = async (req, res) => {
   try {
-    const { fullName, email, portfolio, bio } = req.body;
+    const { fullName, portfolio, bio } = req.body;
     const userId = req.user.id; // يتم أخذ الـ id من التوكن
+
+    // البحث عن المستخدم باستخدام الـ id لاستخراج البريد الإلكتروني
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const email = user.email; // استخراج البريد الإلكتروني من المستخدم
 
     const newJournalist = new Journalist({
       userId,
       fullName,
-      email,
+      email, // استخدام البريد الإلكتروني المستخرج
       portfolio,
       bio,
       profileImage: req.file.path, // مسار الصورة التي تم رفعها
