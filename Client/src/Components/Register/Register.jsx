@@ -97,20 +97,30 @@ const Register = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#F1F1F1] overflow-hidden">
-      {/* Left side - Image */}
-      <div className="hidden md:block md:w-2/5 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#23120B] to-[#21209C] opacity-90"></div>
-        <div className="absolute inset-0 bg-cover bg-center" style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1150&q=80')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          mixBlendMode: 'overlay'
-        }}></div>
-        <div className="relative h-full flex flex-col justify-between p-8 text-[#F1F1F1]">
-          <div className="flex items-center">
-            <div className="w-8 h-8 bg-[#FDB827] rounded-full flex items-center justify-center">
-              <span className="text-[#23120B] font-bold text-lg">E</span>
+      <div className="flex h-screen bg-[#F1F1F1] overflow-hidden">
+        {/* Left side - Image */}
+        <div className="hidden md:block md:w-2/5 relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#23120B] to-[#21209C] opacity-90"></div>
+          <div className="absolute inset-0 bg-cover bg-center" style={{ 
+            backgroundImage: `url('https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1150&q=80')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            mixBlendMode: 'overlay'
+          }}></div>
+          <div className="relative h-full flex flex-col justify-between p-8 text-[#F1F1F1]">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-[#FDB827] rounded-full flex items-center justify-center">
+                <span className="text-[#23120B] font-bold text-lg"></span>
+              </div>
+              <span className="ml-2 font-semibold text-lg">ORBITRA</span>
+            </div>
+            <div>
+              <h2 className="text-3xl font-bold mb-4 leading-tight">Discover the <span className="text-[#FDB827]">wonders</span><br />of the cosmos</h2>
+              <p className="mb-4 text-[#F1F1F1]/80 text-sm leading-relaxed">Join our community of space enthusiasts and embark on a journey through the universe.</p>
+              <div className="flex items-center space-x-4 mt-4">
+                <div className="w-8 h-1 bg-[#FDB827]"></div>
+                <p className="text-xs text-[#F1F1F1]/70">Over 10,000 explorers already joined</p>
+              </div>
             </div>
             <span className="ml-2 font-semibold text-lg">ExploreMe</span>
           </div>
@@ -280,10 +290,9 @@ const Register = () => {
             </form>
     
             <div  className="text-center mt-3">
-              <p className="text-xs text-[#23120B]/70">
-                Already have an account? <Link to="/login" className="font-medium text-[#21209C] hover:text-[#21209C]/80">Sign in</Link>
+            <p className="text-xs text-[#23120B]/70">
+                Already have an account? <Link to="/Login" className="font-medium text-[#21209C] hover:text-[#21209C]/80">Sign in</Link>
               </p>
-            </div>
           </div>
         </div>
       </div>

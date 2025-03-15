@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/signupRouter"); // Import your auth routes for registration
 const user = require("./Routes/user")
 const articleRoutes = require("./Routes/articlesRoute");
+const contactRoutes = require("./Routes/contactRouter");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -26,14 +27,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Register Routes
-app.use("/api/auth", authRoutes); // Use authRoutes for handling the registration and login routes
+app.use("/api/auth", authRoutes);  // Use authRoutes for handling the registration and login routes
+app.use("/api", contactRoutes);
+
 
 // Connect to MongoDB using connectDB function
 connectDB();
 
 // Routes
 const journalistRouter = require("./Routes/journalistRouter");
-const authMiddleware = require("./middlewares/authMiddleware");
+const authMiddleware = require("./Middlewares/authMiddleware");
 
 app.use('/api', journalistRouter);
 app.use("/api/articles", articleRoutes);

@@ -70,9 +70,9 @@ const Login = () => {
         {/* Logo */}
         <div className="absolute top-8 left-8 z-10 flex items-center">
           <div className="bg-yellow-500 rounded-full h-10 w-10 flex items-center justify-center" style={{ backgroundColor: '#FDB827' }}>
-            <span className="text-white font-bold text-xl">E</span>
+            <span className="text-white font-bold text-xl"></span>
           </div>
-          <span className="ml-2 text-white font-bold text-xl">ExploreMe</span>
+          <span className="ml-2 text-white font-bold text-xl">ORBITRA</span>
         </div>
 
         {/* Cosmic tagline */}
@@ -177,7 +177,7 @@ const Login = () => {
             </div>
 
             <p className="mt-8 text-sm" style={{ color: '#23120B' }}>
-              Don't have an account? <Link to="/register" className="font-medium" style={{ color: '#21209C' }}>Sign up</Link>
+              Don't have an account? <Link to="/Register" className="font-medium" style={{ color: '#21209C' }}>Sign up</Link>
             </p>
           </div>
         </div>

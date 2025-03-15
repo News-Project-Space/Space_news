@@ -10,7 +10,6 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-
     const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Verify token with the secret key
     req.user = decoded;  // Attach the user info to the request object
     next();  // Allow the request to continue to the next middleware or route handler
@@ -20,4 +19,3 @@ const authMiddleware = (req, res, next) => {
 };
 
 module.exports = authMiddleware;
-
