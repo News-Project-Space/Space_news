@@ -131,7 +131,7 @@ const Navbar = () => {
     { path: "/Contact", label: "Mission Control" },
   ];
 
-  if (userRole === "Journalist") {
+  if (userRole === "journalist") {
     navLinks.push({ path: "/NewsArticleCreation", label: "Add Article" });
   } else {
     navLinks.push({ path: "/ToBeJournalist", label: "Join Us" });
