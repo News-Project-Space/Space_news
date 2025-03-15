@@ -36,14 +36,9 @@ const authMiddleware = (req, res, next) => {
   }
 
   try {
-    // فك تشفير التوكن باستخدام المفتاح السري
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    // إرفاق بيانات المستخدم إلى الطلب
-    req.user = decoded;
-
-    // الانتقال إلى Middleware أو Route التالي
-    next();
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Verify token with the secret key
+    req.user = decoded;  // Attach the user info to the request object
+    next();  // Allow the request to continue to the next middleware or route handler
   } catch (error) {
     // إذا كان التوكن غير صالح
     if (error.name === "TokenExpiredError") {
