@@ -56,7 +56,7 @@ function App() {
           element: <ToBeJournalist />
         },
         {
-          path: '/Profile',
+          path: '/Profile/:id',
           element: <Profile />
         },
         {

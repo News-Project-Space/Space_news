@@ -86,42 +86,26 @@ import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import logo from "../images/logo.png";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [userName, setUserName] = useState("");
-  const [userRole, setUserRole] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const userId = useSelector((state) => state.user.userId);
 
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
-
-  const fetchUserInfo = () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); 
-      setUserId(decodedToken._id); 
-      setUserName(decodedToken.fullName); 
-      setUserRole(decodedToken.role); 
-    } catch (err) {
-      console.error("Invalid token.");
+useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:8000/api/user/details/${userId}`)
+        .then((response) => response.json())
+        .then((data) => setUserData(data))
+        .catch((error) => console.error('Error fetching user data:', error));
     }
-  };
+  }, [userId]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUserId("");
-    setUserName("");
-    setUserRole("");
-    navigate("/");
-  };
-
+ 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
@@ -131,12 +115,17 @@ const Navbar = () => {
     { path: "/Contact", label: "Mission Control" },
   ];
 
-  if (userRole === "journalist") {
+  if (userData?.role === "journalist") {
     navLinks.push({ path: "/NewsArticleCreation", label: "Add Article" });
   } else {
     navLinks.push({ path: "/ToBeJournalist", label: "Join Us" });
   }
 
+  console.log(userData);
+
+  const handleLogout = () => {
+ 
+  };
   return (
     <>
       <nav className="text-white backdrop-blur-md bg-black/95 sticky top-0 z-50 border-b border-gray-900 shadow-sm w-full">
@@ -173,12 +162,12 @@ const Navbar = () => {
                   className="flex items-center space-x-2 focus:outline-none"
                 >
                   <FaUserCircle size={32} className="text-white" />
-                  <span className="text-white font-medium">{userName}</span>
+                  <span className="text-white font-medium">{userData?.fullName}</span>
                 </button>
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-black border border-gray-700 shadow-lg rounded-lg overflow-hidden">
-                    <Link to="/Profile" className="block px-4 py-2 text-white hover:bg-gray-800">
+                    <Link to={`/Profile/${userId}`} className="block px-4 py-2 text-white hover:bg-gray-800">
                       Profile
                     </Link>
                     <Link to="/Bookmark" className="block px-4 py-2 text-white hover:bg-gray-800">
@@ -257,4 +246,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
