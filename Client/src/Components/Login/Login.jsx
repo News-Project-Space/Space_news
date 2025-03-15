@@ -1,8 +1,11 @@
 // src/pages/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserId } from "../../Redux/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -13,7 +16,6 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    // Frontend Validation
     if (!email || !password) {
       setError("Email and password are required.");
       return;
@@ -33,7 +35,8 @@ const Login = () => {
       }
 
       const result = await response.json();
-      const { token, user } = result; // Extract user data along with token
+
+      const { token, user } = result;
 
       // Store both token and user in localStorage
       localStorage.setItem("token", token);
@@ -43,9 +46,18 @@ const Login = () => {
       if (user.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/dashboard");
+        setTimeout(() => navigate("/"), 1200);
       }
+
+      dispatch(setUserId(user.id));
+
+      const expires = new Date();
+      expires.setMinutes(expires.getMinutes() + 60);
+      document.cookie = `token=${token};expires=${expires.toUTCString()};path=/;secure`;
+
+      // setTimeout(() => navigate("/"), 1200);
     } catch (error) {
+      console.log(error);
       setError("An error occurred while logging in. Please try again.");
     }
   };
@@ -78,9 +90,9 @@ const Login = () => {
             className="bg-yellow-500 rounded-full h-10 w-10 flex items-center justify-center"
             style={{ backgroundColor: "#FDB827" }}
           >
-            <span className="text-white font-bold text-xl">E</span>
+            <span className="text-white font-bold text-xl"></span>
           </div>
-          <span className="ml-2 text-white font-bold text-xl">ExploreMe</span>
+          <span className="ml-2 text-white font-bold text-xl">ORBITRA</span>
         </div>
 
         {/* Cosmic tagline */}
@@ -228,7 +240,7 @@ const Login = () => {
             <p className="mt-8 text-sm" style={{ color: "#23120B" }}>
               Don't have an account?{" "}
               <Link
-                to="/signup"
+                to="/Register"
                 className="font-medium"
                 style={{ color: "#21209C" }}
               >

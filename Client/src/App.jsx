@@ -37,7 +37,7 @@ function App() {
           errorElement: <PageNotFound />,
         },
         {
-          path: "/ArticleDetails",
+          path: "/ArticleDetails/:id",
           element: <ArticleDetails />,
         },
         {
@@ -61,7 +61,7 @@ function App() {
           element: <ToBeJournalist />,
         },
         {
-          path: "/Profile",
+          path: "/Profile/:id",
           element: <Profile />,
         },
         {

@@ -16,16 +16,14 @@ const registerUser = async (req, res) => {
       .json({ message: "Full name, email, and password are required" });
   }
 
-  const emailRegex = /\S+@\S+\.\S+/;
-  if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: "Invalid email format" });
-  }
+  // const emailRegex = /\S+@\S+\.\S+/;
+  // if (!emailRegex.test(email)) {
+  //   return res.status(400).json({ message: 'Invalid email format' });
+  // }
 
-  if (password.length < 8) {
-    return res
-      .status(400)
-      .json({ message: "Password must be at least 8 characters long" });
-  }
+  // if (password.length < 8) {
+  //   return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+  // }
 
   try {
     const userExists = await User.findOne({ email });
@@ -55,6 +53,7 @@ const registerUser = async (req, res) => {
     res.status(201).json({
       token,
       user: {
+        id: newUser._id,
         fullName: newUser.fullName,
         email: newUser.email,
         role: newUser.role,
@@ -99,6 +98,7 @@ const loginUser = async (req, res) => {
     res.status(200).json({
       token,
       user: {
+        id: user.id,
         fullName: user.fullName,
         email: user.email,
         role: user.role,
