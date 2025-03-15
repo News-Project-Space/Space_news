@@ -1,21 +1,23 @@
 const Article = require("../Models/articlesModel");
+const upload = require("../Multer/multerConfig"); 
 
 exports.createArticle = async (req, res) => {
   try {
-    const { title, content, category, tags, featuredImage, featuredVideo, authorId } = req.body;
+    const { title, content, category, tags, featuredVideo, authorId } = req.body;
 
 
-    if (!title || !content || !category || !tags || !featuredImage || featuredImage.length === 0) {
+    const featuredImage = req.files.map(file => `/uploads/${file.filename}`);
+
+    if (!title || !content || !category || !tags || featuredImage.length === 0) {
       return res.status(400).json({ error: "All required fields must be filled." });
     }
 
     const formattedTags = Array.isArray(tags) ? tags : tags.split(",").map(tag => tag.trim());
-    const formattedImages = Array.isArray(featuredImage) ? featuredImage : featuredImage.split(",").map(img => img.trim());
 
     const newArticle = new Article({
       title,
       content,
-      featuredImage: formattedImages,
+      featuredImage,
       featuredVideo,
       category,
       tags: formattedTags,

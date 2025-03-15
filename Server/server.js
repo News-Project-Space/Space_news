@@ -6,9 +6,11 @@ const jwt = require("jsonwebtoken");
 const cookiesParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 
-
+// Routes
 const articleRoutes = require("./Routes/articlesRoute");
 const newArticleRoutes = require ('./Routes/newArticleRoute');
+const journalistRouter = require('./Routes/journalistRouter');
+const authMiddleware = require('./Middlewares/authMiddleware');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +21,7 @@ app.use(cookiesParser());
 app.use(
   cors({
     origin: "http://localhost:5173", 
+    origin: "http://localhost:5174", 
     credentials: true,
   })
 );
@@ -33,6 +36,7 @@ app.use("/api/articles", newArticleRoutes);
 connectDB();
 
 
+app.use('/api', journalistRouter);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
