@@ -32,7 +32,7 @@ function App() {
           errorElement: <PageNotFound />
         },
         {
-          path: '/ArticleDetails',
+          path: '/ArticleDetails/:id',
           element: <ArticleDetails />
         },
         {

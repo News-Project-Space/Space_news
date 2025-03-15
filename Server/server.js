@@ -8,7 +8,6 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/signupRouter"); // Import your auth routes for registration
 const user = require("./Routes/user")
 const articleRoutes = require("./Routes/articlesRoute");
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -36,8 +35,10 @@ connectDB();
 const journalistRouter = require("./Routes/journalistRouter");
 const authMiddleware = require("./middlewares/authMiddleware");
 
-app.use("/api", journalistRouter);
+app.use('/api', journalistRouter);
+app.use("/api/articles", articleRoutes);
 app.use("/api/user", user);
+
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
