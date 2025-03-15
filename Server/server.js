@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");  // For handling JWT (if needed later)
 const cookiesParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/signupRouter");  // Import your auth routes for registration
+const articleRoutes = require("./Routes/articlesRoute");
+const contactRoutes = require("./Routes/contactRouter");  // Import contact routes
+
 
 
 const app = express();
@@ -27,17 +30,21 @@ app.use(express.urlencoded({ extended: true }));
 
 // Register Routes
 app.use("/api/auth", authRoutes);  // Use authRoutes for handling the registration and login routes
+app.use("/api", contactRoutes);
+
 
 // Connect to MongoDB using connectDB function
 connectDB();
 
-// Default route
+// Routes
+const journalistRouter = require('./Routes/journalistRouter');
+const authMiddleware = require('./middlewares/authMiddleware');
+
+app.use('/api', journalistRouter);
+
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
 });
 
 // Start Server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-
-

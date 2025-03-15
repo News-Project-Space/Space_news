@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, ChevronDown, Check } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -105,9 +105,9 @@ const Register = () => {
           <div className="relative h-full flex flex-col justify-between p-8 text-[#F1F1F1]">
             <div className="flex items-center">
               <div className="w-8 h-8 bg-[#FDB827] rounded-full flex items-center justify-center">
-                <span className="text-[#23120B] font-bold text-lg">E</span>
+                <span className="text-[#23120B] font-bold text-lg"></span>
               </div>
-              <span className="ml-2 font-semibold text-lg">ExploreMe</span>
+              <span className="ml-2 font-semibold text-lg">ORBITRA</span>
             </div>
             <div>
               <h2 className="text-3xl font-bold mb-4 leading-tight">Discover the <span className="text-[#FDB827]">wonders</span><br />of the cosmos</h2>
@@ -285,7 +285,7 @@ const Register = () => {
     
             <div className="text-center mt-3">
               <p className="text-xs text-[#23120B]/70">
-                Already have an account? <a href="#" className="font-medium text-[#21209C] hover:text-[#21209C]/80">Sign in</a>
+                Already have an account? <Link to="/Login" className="font-medium text-[#21209C] hover:text-[#21209C]/80">Sign in</Link>
               </p>
             </div>
           </div>
