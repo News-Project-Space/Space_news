@@ -5,7 +5,7 @@ const connectDB = require("./config/db");
 const jwt = require("jsonwebtoken"); 
 const cookiesParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-
+const articleRoutes = require("./Routes/articlesRoute");
 
 
 const app = express();
@@ -16,12 +16,13 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin: ["http://localhost:5174/", "http://localhost:5173/"], // ✅ Allow both ports
     credentials: true,
   })
 );
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true })); 
+app.use("/api/articles", articleRoutes);
 
 // Connect to MongoDB
 connectDB();
