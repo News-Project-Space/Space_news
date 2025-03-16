@@ -18,7 +18,7 @@ app.use(cookiesParser());
 app.use(
   cors({
     origin: "*", // Make sure this is the correct frontend URL
-    methods: ["GET", "POST"],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true, // Make sure cookies are included if you're using JWT in cookies
   })
 );

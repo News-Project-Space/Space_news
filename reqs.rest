@@ -1,1 +1,19 @@
 GET http://localhost:8000/api/user/details/67d57b7574c3651af76db56d
+
+#####
+PUT http://localhost:8000/api/user/update/67d48170a5bf5b832dd9844f
+Content-Type: application/json
+
+{
+    "fullName": "John",
+    "preferences": ["The a7a System", "Alien Life"]
+}
+
+#####
+PUT http://localhost:8000/api/user/update/67d48170a5bf5b832dd9844f
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "email": "www@example.com"
+}
