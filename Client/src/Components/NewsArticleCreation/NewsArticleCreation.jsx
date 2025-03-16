@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const NewsArticleCreation = () => {
   const [formData, setFormData] = useState({
@@ -12,38 +13,38 @@ const NewsArticleCreation = () => {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [authorId, setAuthorId] = useState("");
+  const [userData, setUserData] = useState(null);
+  
+  const authorId = useSelector((state) => state.user.userId);
+  const userRole = useSelector((state) => state.user.role);  
 
   useEffect(() => {
-    fetchAuthorId();
-  }, []);
+    if (authorId) {
+      fetch(`http://localhost:8000/api/user/details/${authorId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("User Data:", data);  
+          setUserData(data);
+        })
+        .catch((error) => console.error("Error fetching user data:", error));
+    }
+  }, [authorId]);
 
-  const fetchAuthorId = () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("User not authenticated.");
-      return;
-    }
-  
-    try {
-      const decodedToken = JSON.parse(atob(token.split(".")[1])); 
-      setAuthorId(decodedToken._id); 
-    } catch (err) {
-      setError("Invalid token.");
-    }
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
   };
-  
 
-  
   const handleChange = (e) => {
     if (e.target.name === "featuredImage") {
-      setFormData({ ...formData, featuredImage: [...e.target.files] }); 
+      setFormData({ ...formData, featuredImage: [...e.target.files] });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -54,8 +55,13 @@ const NewsArticleCreation = () => {
       return;
     }
 
+    if (userRole === "reader") {  
+      setError("Permission denied. You are not allowed to publish articles.");
+      return;
+    }
+
     try {
-      const token = localStorage.getItem("token");
+      const token = getCookie("token");
       const data = new FormData();
 
       data.append("title", formData.title);
@@ -87,6 +93,7 @@ const NewsArticleCreation = () => {
         featuredVideo: "",
       });
     } catch (err) {
+      console.error("Error creating article:", err);
       setError(err.response?.data?.error || "Failed to create article");
     }
   };
