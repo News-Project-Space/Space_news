@@ -92,7 +92,7 @@ const Login = () => {
           >
             <span className="text-white font-bold text-xl"></span>
           </div>
-          <span className="ml-2 text-white font-bold text-xl">ORBITRA</span>
+          <Link to="/" className="ml-2 text-white font-bold text-xl">ORBITRA</Link>
         </div>
 
         {/* Cosmic tagline */}
