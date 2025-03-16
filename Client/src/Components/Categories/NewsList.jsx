@@ -64,6 +64,7 @@ const NewsList = () => {
     e.preventDefault();
     setCurrentPage(1);
   };
+  console.log(articles);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -151,11 +152,11 @@ const NewsList = () => {
             <div key={article._id} onClick={() => handleArticleClick(article._id)} className={viewMode === "list" ? " flex space-x-4" : ""}>
               <div className="block cursor-pointer">
                 <div className={`${viewMode === "list" ? "w-36 h-36" : "w-full h-48"} overflow-hidden mb-2`}>
-                  <img
-                    src={article.featuredImage[0] || "/images/default-news.jpg"}
+                <img
+                    src={article.featuredImage?.length > 0 ? `http://localhost:8000${article.featuredImage[0]}` : "/images/default-news.jpg"}
                     alt={article.title}
                     className="w-full h-full object-cover"
-                  />
+                    />
                 </div>
               </div>
               <div>
