@@ -9,6 +9,7 @@ const authRoutes = require("./Routes/signupRouter"); // Import your auth routes 
 const user = require("./Routes/user");
 const contactRoutes = require("./Routes/contactRouter");
 const adminRouter = require("./Routes/adminRouter");
+const path = require("path");
 
 // Routes
 const articleRoutes = require("./Routes/articlesRoute");
@@ -53,6 +54,7 @@ app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
 app.use("/uploads", express.static("uploads"));
 
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // Connect to MongoDB using connectDB function
 connectDB();
 
