@@ -25,7 +25,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Navbar />,
+      element: (
+        <>
+          <Navbar />
+          <Footer />
+        </>),
       children: [
         {
           index: true,
@@ -96,7 +100,6 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <Footer />
     </>
   );
 }
