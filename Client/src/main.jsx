@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <CookiesProvider> {/* تغليف التطبيق بـ CookiesProvider */}
     <Provider store={store}>
     <App />
-  </Provider>,
+  </Provider>
     </CookiesProvider>
-  </StrictMode>,
+  </StrictMode>
 )
