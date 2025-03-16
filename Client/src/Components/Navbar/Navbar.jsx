@@ -149,16 +149,6 @@ useEffect(() => {
   if (userData?.role === "journalist") {
     navLinks.push({ path: "/NewsArticleCreation", label: "Add Article" });
   } else {
-<<<<<<< HEAD
-    navLinks.push({ path: "/ToBeJournalist", label: "Join Us" });
-  }
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
-
-  const handleLogout = () => {
-    console.log("Logging out...");
-=======
     navLinks.push({ path: userId ? "/ToBeJournalist" : "/login", label: "Join Us" });
   }
 
@@ -168,7 +158,6 @@ useEffect(() => {
     localStorage.removeItem("token"); // Remove token
     navigate("/login"); // Redirect to login page
     window.location.reload(); // Refresh to clear Redux state (optional)
->>>>>>> f1114103a53866535c379707469a30d2aa16eed8
   };
 
   return (
