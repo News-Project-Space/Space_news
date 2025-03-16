@@ -40,11 +40,10 @@ const createJournalist = async (req, res) => {
       return res.status(400).json({ message: "All Data required " });
     }
 
-    const existingJournalist = await Journalist.findOne({ email });
-    if (existingJournalist) {
-      console.log("Existing Journalist Error: هذا البريد الإلكتروني مستخدم بالفعل");
-      return res.status(400).json({ message: "Email is used" });
-    }
+    const existingJournalist = await Journalist.findOne({ userId });
+if (existingJournalist) {
+  return res.status(400).json({ message: "User has already applied" });
+}
 
     const journalist = new Journalist({
       userId,
