@@ -13,7 +13,7 @@ import {
   Register,
   ToBeJournalist,
   PageNotFound,
-} from "./components";
+} from "./Components";
 import Footer from "./Components/Footer/Footer";
 
 // NEW IMPORTS:
@@ -23,7 +23,7 @@ import AdminUsers from "./Components/AdminDashboard/AdminUsers";
 import ArticlesList from "./Components/AdminDashboard/ArticlesList";
 import AdminArticleDetails from "./Components/AdminDashboard/AdminArticleDetails";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import AboutUs from "./components/About/About";
+import AboutUs from "./Components/About/About";
 
 function App() {
   const router = createBrowserRouter([

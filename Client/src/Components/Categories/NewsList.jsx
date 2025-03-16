@@ -64,6 +64,19 @@ const NewsList = () => {
     e.preventDefault();
     setCurrentPage(1);
   };
+  console.log(articles);
+
+
+
+    const handleViewArticle = async (articleId) => {
+      try {
+        await axios.post(`http://localhost:8000/api/articles/view/${articleId}`, {}, { withCredentials: true });
+      } catch (error) {
+        console.error("Error updating article views:", error);
+      }
+    };
+
+    
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -148,23 +161,27 @@ const NewsList = () => {
       ) : (
         <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" : "space-y-4"}>
           {articles.map((article) => (
-            <div key={article._id} onClick={() => handleArticleClick(article._id)} className={viewMode === "list" ? " flex space-x-4" : ""}>
+            <div key={article._id}  onClick={() => {
+              handleViewArticle(article._id);
+              handleArticleClick(article._id);
+            }}  className={viewMode === "list" ? " flex space-x-4" : ""}
+            >
               <div className="block cursor-pointer">
                 <div className={`${viewMode === "list" ? "w-36 h-36" : "w-full h-48"} overflow-hidden mb-2`}>
-                  <img
-                    src={article.featuredImage[0] || "/images/default-news.jpg"}
+                <img
+                    src={article.featuredImage?.length > 0 ? `http://localhost:8000${article.featuredImage[0]}` : "/images/default-news.jpg"}
                     alt={article.title}
                     className="w-full h-full object-cover"
-                  />
+                    />
                 </div>
               </div>
               <div>
-                <Link to={`/category/${article.category.toLowerCase()}`} className="text-blue-700 font-medium block mb-2">
+                <div className="text-blue-700 font-medium block mb-2">
                   {article.category}
-                </Link>
-                <Link to={`/article/${article._id}`} className="block">
+                </div>
+                <div className="block">
                   <h2 className="text-xl font-bold mb-2 hover:text-blue-700">{article.title}</h2>
-                </Link>
+                </div>
                 <p className="text-gray-500">
                   {new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(article.createdAt))}
                 </p>
