@@ -12,6 +12,7 @@ router.get("/dashboard", adminController.getDashboardMetrics);
 
 // Manage articles
 router.get("/articles", adminController.getArticles);
+router.get("/articles/:id", adminController.getArticleById); // New route
 router.put("/articles/:id/status", adminController.updateArticleStatus);
 
 // Manage journalists

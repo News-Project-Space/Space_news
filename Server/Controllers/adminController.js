@@ -12,16 +12,10 @@ exports.getDashboardMetrics = async (req, res) => {
     const approvedArticles = await Article.countDocuments({
       status: "approved",
     });
-
-    // 1) Count all users with role "journalist" in the User model
     const totalJournalists = await User.countDocuments({ role: "journalist" });
-
-    // 2) Still count pending journalist requests from the separate Journalist model
-    //    (assuming "pending" means they haven't been approved yet)
     const pendingJournalists = await Journalist.countDocuments({
       status: "pending",
     });
-
     const totalComments = await Comment.countDocuments();
 
     res.status(200).json({
@@ -47,6 +41,26 @@ exports.getArticles = async (req, res) => {
     const articles = await Article.find();
     res.status(200).json({ success: true, articles });
   } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get a single article by ID
+exports.getArticleById = async (req, res) => {
+  try {
+    const articleId = req.params.id;
+    console.log("Fetching article with ID:", articleId); // debug
+    const article = await Article.findById(articleId);
+    console.log("Article found:", article); // Add this extra log
+
+    if (!article) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Article not found" });
+    }
+    return res.status(200).json({ success: true, article });
+  } catch (error) {
+    console.error("Error in getArticleById:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

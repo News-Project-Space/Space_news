@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes); // Use authRoutes for handling the registration and login routes
 app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
+app.use("/api/articles", articleRoutes);
 
 // Connect to MongoDB using connectDB function
 connectDB();

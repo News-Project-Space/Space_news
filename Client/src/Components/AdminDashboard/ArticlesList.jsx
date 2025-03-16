@@ -1,11 +1,15 @@
+// src/Components/AdminDashboard/ArticlesList.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ArticlesList = () => {
   const [articles, setArticles] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
+  // Fetch articles from the server
   const fetchArticles = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -24,6 +28,7 @@ const ArticlesList = () => {
     fetchArticles();
   }, []);
 
+  // Handle approving or rejecting an article
   const handleStatusChange = async (articleId, newStatus) => {
     try {
       const token = localStorage.getItem("token");
@@ -41,20 +46,22 @@ const ArticlesList = () => {
     }
   };
 
-  if (loading)
+  if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
       <div className="p-4 mb-4 bg-red-50 border-l-4 border-red-500 text-red-700">
         <p className="font-medium">Error</p>
         <p>{error}</p>
       </div>
     );
+  }
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -87,7 +94,12 @@ const ArticlesList = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {articles.map((article) => (
-                <tr key={article._id} className="hover:bg-gray-50">
+                <tr
+                  key={article._id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  // Navigate to the article details page
+                  onClick={() => navigate(`/admin/articles/${article._id}`)}
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {article.title}
                   </td>
@@ -110,17 +122,19 @@ const ArticlesList = () => {
                       <div className="flex space-x-2">
                         <button
                           className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
-                          onClick={() =>
-                            handleStatusChange(article._id, "approved")
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent row click
+                            handleStatusChange(article._id, "approved");
+                          }}
                         >
                           Approve
                         </button>
                         <button
                           className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
-                          onClick={() =>
-                            handleStatusChange(article._id, "rejected")
-                          }
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleStatusChange(article._id, "rejected");
+                          }}
                         >
                           Reject
                         </button>
