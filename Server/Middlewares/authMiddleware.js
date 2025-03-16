@@ -8,9 +8,6 @@ const authMiddleware = (req, res, next) => {
       return res.status(401).json({ message: "No token, authorization denied" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);  
-
-    
     if (!decoded._id || !decoded.role) {
       return res.status(401).json({ message: "Invalid token structure" });
     }
@@ -20,6 +17,9 @@ const authMiddleware = (req, res, next) => {
     console.log("Authenticated User:", req.user); 
 
     next();  
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);  // Verify token with the secret key
+    req.user = decoded;  // Attach the user info to the request object
+    next();  // Allow the request to continue to the next middleware or route handler
   } catch (error) {
     return res.status(401).json({ message: "Token is not valid" });
   }
