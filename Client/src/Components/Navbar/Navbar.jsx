@@ -1,18 +1,9 @@
 // import { useState } from "react";
 // import { Link, Outlet } from "react-router-dom";
-<<<<<<< HEAD
-// import { FaBars, FaTimes } from "react-icons/fa";
-// import { useSelector } from "react-redux";
-
-// const Navbar = () => {
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const userId = useSelector((state) => state.user.userId);
-=======
 // import { FaRegHeart, FaBars, FaTimes } from "react-icons/fa";
 
 // const Navbar = () => {
 //   const [isMenuOpen, setIsMenuOpen] = useState(false);
->>>>>>> f1114103a53866535c379707469a30d2aa16eed8
 
 //   const toggleMenu = () => {
 //     setIsMenuOpen(!isMenuOpen);
@@ -26,11 +17,7 @@
 //     { path: "/Contact", label: "Contact" },
 //     { path: "/About", label: "About" },
 //     { path: "/ToBeJournalist", label: "To Be a Journalist" },
-<<<<<<< HEAD
-//     { path: `/Profile/${userId}`, label: "Profile" },
-=======
 //     { path: "/Profile", label: "Profile" },
->>>>>>> f1114103a53866535c379707469a30d2aa16eed8
 //     { path: "/NewsArticleCreation", label: "Create News Article" },
 //     { path: "/login", label: "Login" },
 //     { path: "/Register", label: "Register" },
