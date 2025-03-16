@@ -194,14 +194,14 @@ const NewsList = () => {
       {/* Pagination could be added here */}
       <div className="flex justify-center mt-6">
         <button
-          className="px-4 py-2 bg-gray-200 rounded mr-2"
+          className="px-4 py-2 cursor-pointer bg-gray-200 rounded mr-2"
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
           disabled={currentPage === 1}
         >
           Prev
         </button>
         <button
-          className="px-4 py-2 bg-gray-200 rounded"
+          className="px-4 py-2 cursor-pointer bg-gray-200 rounded"
           onClick={() => setCurrentPage((prev) => prev + 1)}
           disabled={currentPage * itemsPerPage >= totalResults}
         >

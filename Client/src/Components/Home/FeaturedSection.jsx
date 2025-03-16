@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
 
 const FeaturedSection = () => {
   const [featuredNews, setFeaturedNews] = useState([]);
-  
+  const navigate = useNavigate();
+
+  const handleReadMore = (id) => {
+      navigate(`/ArticleDetails/${id}`);
+  };
+
   useEffect(() => {
     // Fetch top 4 most viewed articles
     const fetchTopArticles = async () => {
@@ -65,31 +71,36 @@ const FeaturedSection = () => {
 
   return (
     <div className="w-full bg-white mt-10 mb-10">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-18 py-8"> {/* Increased padding from px-4 to px-8 */}
         {/* Section Header */}
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-black">Featured News</h2>
-          <div className="flex items-center">
+        <div className="flex justify-between items-center mb-15 mt-5">
+          <h2 className="text-4xl md:text-4xl font-bold text-black">Featured News</h2>
+          <Link to="/Categories" className="flex items-center">
             <span className="mr-2 hidden md:block font-semibold">Most Viewed</span>
             <span className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs">→</span>
-          </div>
+          </Link>
         </div>
         
         {/* News Grid */}
         {featuredNews.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Large Featured Article */}
-            <div className="lg:col-span-7 h-100">
+            <div className="lg:col-span-7 h-100 cursor-pointer" onClick={()=>{handleReadMore(featuredNews[0]._id)}}>
               <NewsCard item={featuredNews[0]} size="large" />
             </div>
             
             {/* Right Column */}
-            <div className="lg:col-span-5 grid grid-cols-1 md:grid-cols-1 gap-4">
+            <div className="lg:col-span-5 grid grid-cols-1 md:grid-cols-1 gap-4 " >
+              <div className="cursor-pointer" onClick={()=>{handleReadMore(featuredNews[1]._id)}}>
               <NewsCard key={featuredNews[1]?._id} item={featuredNews[1] || {}} />
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <NewsCard key={featuredNews[2]?._id} item={featuredNews[2] || {}} />
-                <NewsCard key={featuredNews[3]?._id} item={featuredNews[3] || {}} />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" >
+                <div className="cursor-pointer" onClick={()=>{handleReadMore(featuredNews[2]._id)}}>
+                <NewsCard key={featuredNews[2]?._id} item={featuredNews[2] || {}}/>
+                </div>
+                <div className="cursor-pointer" onClick={()=>{handleReadMore(featuredNews[3]._id)}}>
+                <NewsCard key={featuredNews[3]?._id} item={featuredNews[3] || {}}/>
+                </div>
               </div>
             </div>
           </div>
