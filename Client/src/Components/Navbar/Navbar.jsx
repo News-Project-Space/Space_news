@@ -1,11 +1,18 @@
 // import { useState } from "react";
 // import { Link, Outlet } from "react-router-dom";
+<<<<<<< HEAD
 // import { FaBars, FaTimes } from "react-icons/fa";
 // import { useSelector } from "react-redux";
 
 // const Navbar = () => {
 //   const [isMenuOpen, setIsMenuOpen] = useState(false);
 //   const userId = useSelector((state) => state.user.userId);
+=======
+// import { FaRegHeart, FaBars, FaTimes } from "react-icons/fa";
+
+// const Navbar = () => {
+//   const [isMenuOpen, setIsMenuOpen] = useState(false);
+>>>>>>> f1114103a53866535c379707469a30d2aa16eed8
 
 //   const toggleMenu = () => {
 //     setIsMenuOpen(!isMenuOpen);
@@ -19,7 +26,11 @@
 //     { path: "/Contact", label: "Contact" },
 //     { path: "/About", label: "About" },
 //     { path: "/ToBeJournalist", label: "To Be a Journalist" },
+<<<<<<< HEAD
 //     { path: `/Profile/${userId}`, label: "Profile" },
+=======
+//     { path: "/Profile", label: "Profile" },
+>>>>>>> f1114103a53866535c379707469a30d2aa16eed8
 //     { path: "/NewsArticleCreation", label: "Create News Article" },
 //     { path: "/login", label: "Login" },
 //     { path: "/Register", label: "Register" },
@@ -84,10 +95,8 @@
 // };
 
 // export default Navbar;
-
-
 import { useState, useEffect } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import logo from "../images/logo.png";
 import { useSelector } from "react-redux";
@@ -114,9 +123,22 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
   const userId = useSelector((state) => state.user.userId);
 
-  const userData = useUserData(userId);
+useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:8000/api/user/details/${userId}`)
+        .then((response) => response.json())
+        .then((data) => setUserData(data))
+        .catch((error) => console.error('Error fetching user data:', error));
+    }
+  }, [userId]);
+
+ 
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   const navLinks = [
     { path: "/Categories", label: "Explore News" },
@@ -127,6 +149,7 @@ const Navbar = () => {
   if (userData?.role === "journalist") {
     navLinks.push({ path: "/NewsArticleCreation", label: "Add Article" });
   } else {
+<<<<<<< HEAD
     navLinks.push({ path: "/ToBeJournalist", label: "Join Us" });
   }
 
@@ -135,6 +158,17 @@ const Navbar = () => {
 
   const handleLogout = () => {
     console.log("Logging out...");
+=======
+    navLinks.push({ path: userId ? "/ToBeJournalist" : "/login", label: "Join Us" });
+  }
+
+  console.log(userData);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove token
+    navigate("/login"); // Redirect to login page
+    window.location.reload(); // Refresh to clear Redux state (optional)
+>>>>>>> f1114103a53866535c379707469a30d2aa16eed8
   };
 
   return (
@@ -153,10 +187,11 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`transition duration-300 text-lg font-medium ${location.pathname === link.path
+                className={`transition duration-300 text-lg font-medium ${
+                  location.pathname === link.path
                     ? "text-[#FDB827] border-b-2 border-[#FDB827]"
                     : "text-white hover:text-[#FDB827]"
-                  }`}
+                }`}
               >
                 {link.label}
               </Link>
@@ -169,35 +204,23 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center space-x-2 focus:outline-none"
-                  aria-expanded={isDropdownOpen ? "true" : "false"}
-                  aria-controls="user-dropdown"
+                  className="flex items-center cursor-pointer space-x-2 focus:outline-none"
                 >
                   <FaUserCircle size={32} className="text-white" />
                   <span className="text-white font-medium">{userData?.fullName}</span>
                 </button>
-
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                  <div
-                    id="user-dropdown"
-                    className="absolute right-0 mt-2 w-48 bg-black border border-gray-700 shadow-lg rounded-lg overflow-hidden"
-                  >
-                    <Link
-                      to={`/Profile/${userId}`}
-                      className="block px-4 py-2 text-white hover:bg-gray-800"
-                    >
+                  <div className="absolute right-0 mt-2 w-48 bg-black border border-gray-700 shadow-lg rounded-lg overflow-hidden">
+                    <Link to={`/Profile/${userId}`} className="block px-4 py-2 text-white hover:bg-gray-800">
                       Profile
                     </Link>
-                    <Link
-                      to="/Bookmark"
-                      className="block px-4 py-2 text-white hover:bg-gray-800"
-                    >
+                    <Link to="/Bookmark" className="block px-4 py-2 text-white hover:bg-gray-800">
                       Bookmarks
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-800"
+                      className="block w-full cursor-pointer text-left px-4 py-2 text-red-500 hover:bg-gray-800"
                     >
                       Logout
                     </button>
@@ -215,11 +238,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden text-white hover:text-[#FDB827]"
-            aria-label="Toggle mobile menu"
-          >
+          <button onClick={toggleMenu} className="md:hidden text-white hover:text-[#FDB827]">
             {isMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
           </button>
         </div>
@@ -240,18 +259,10 @@ const Navbar = () => {
               ))}
               {userId ? (
                 <>
-                  <Link
-                    to="/Profile"
-                    className="block text-white hover:text-[#FDB827] py-2"
-                    onClick={toggleMenu}
-                  >
+                  <Link to="/Profile" className="block text-white hover:text-[#FDB827] py-2">
                     Profile
                   </Link>
-                  <Link
-                    to="/Bookmarks"
-                    className="block text-white hover:text-[#FDB827] py-2"
-                    onClick={toggleMenu}
-                  >
+                  <Link to="/Bookmarks" className="block text-white hover:text-[#FDB827] py-2">
                     Bookmarks
                   </Link>
                   <button

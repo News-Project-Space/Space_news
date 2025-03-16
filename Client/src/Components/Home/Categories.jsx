@@ -6,25 +6,25 @@ const Categories = () => {
       id: 1,
       title: 'The Solar System',
       image: 'https://i.pinimg.com/736x/7e/77/de/7e77defe8ea11cd34dfad78145050b8d.jpg',
-      path: '/living-in-space'
+      path: '/Categories'
     },
     {
       id: 2,
       title: 'Astrobiology & Alien Life',
       image: 'https://i.pinimg.com/736x/a6/eb/bd/a6ebbd4306c4eaeae87243068efc4d5e.jpg',
-      path: '/commercial-space'
+      path: '/Categories'
     },
     {
       id: 3,
       title: 'Space Innovation',
       image: 'https://i.pinimg.com/736x/96/07/fc/9607fc4cfbaa472e32f10bb71a9ab81f.jpg',
-      path: '/leo-economy'
+      path: '/Categories'
     },
     {
       id: 4,
       title: 'Astronomy & Space Science',
       image: 'https://i.pinimg.com/736x/b5/fd/1b/b5fd1bf4b10579def9c8faf1e4a9cb4b.jpg',
-      path: '/spaceships-rockets'
+      path: '/Categories'
     }
   ];
 
