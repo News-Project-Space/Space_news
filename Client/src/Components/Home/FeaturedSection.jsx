@@ -27,7 +27,7 @@ const FeaturedSection = () => {
     return (
       <div
         className={`relative overflow-hidden rounded-lg ${
-          size === "large" ? 'h-[375px] lg:h-[450px]' : 'h-64'
+          size === "large" ? 'h-[400px] lg:h-[530px]' : 'h-64'
         }`}
       >
         {/* Background Image */}
@@ -47,8 +47,8 @@ const FeaturedSection = () => {
               <span className="w-5 h-5 mr-1 rounded-full bg-white/20 flex items-center justify-center text-xs">ⓘ</span>
               <span className="text-xs font-medium tracking-wider">ARTICLE</span>
             </span>
-            {item.readTime && (
-              <span className="text-xs font-medium tracking-wider">{item.readTime}</span>
+            {item.viewsCount && (
+              <span className="text-xs font-medium tracking-wider">{item.viewsCount}</span>
             )}
           </div>
           
@@ -64,14 +64,14 @@ const FeaturedSection = () => {
   };
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-white mt-10 mb-10">
       <div className="container mx-auto px-4 py-8">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-4xl md:text-5xl font-bold text-black">Featured News</h2>
           <div className="flex items-center">
-            <span className="mr-2 hidden md:block font-semibold">Recently Published</span>
-            <span className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">→</span>
+            <span className="mr-2 hidden md:block font-semibold">Most Viewed</span>
+            <span className="w-6 h-6 bg-yellow-500 rounded-full flex items-center justify-center text-white text-xs">→</span>
           </div>
         </div>
         
@@ -79,7 +79,7 @@ const FeaturedSection = () => {
         {featuredNews.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Large Featured Article */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 h-100">
               <NewsCard item={featuredNews[0]} size="large" />
             </div>
             
