@@ -30,9 +30,10 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: "*", // Make sure this is the correct frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Make sure cookies are included if you're using JWT in cookies
+    origin: (_, callback) => {
+      callback(null, true);
+    },
+    credentials: true,
   })
 );
 app.use(express.json()); 
