@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const CtaSection = () => {
   return (
-    <div className="relative w-full h-screen md:h-[500px]">
+    <div className="relative w-full h-screen md:h-[500px] mb-15">
       {/* Background Image */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
       <video
