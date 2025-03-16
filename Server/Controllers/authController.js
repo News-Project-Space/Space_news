@@ -1,7 +1,7 @@
 // controllers/authController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/userModel"); // User model
+const User = require("../Models/userModel"); // User model
 const dotenv = require("dotenv");
 
 dotenv.config();
