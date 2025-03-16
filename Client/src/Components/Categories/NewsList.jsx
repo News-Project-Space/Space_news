@@ -149,47 +149,75 @@ const NewsList = () => {
         </div>
       </div>
 
-      {/* Articles Grid/List */}
-      {loading ? (
-        <div className="flex justify-center py-12">
-          <p>Loading articles...</p>
+       {/* Articles Grid/List */}
+{loading ? (
+  <div className="flex justify-center py-12">
+    <p>Loading articles...</p>
+  </div>
+) : error ? (
+  <div className="flex justify-center py-12">
+    <p className="text-red-500">{error}</p>
+  </div>
+) : (
+  <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" : "space-y-4"}>
+    {articles.map((article) => (
+      <div 
+        key={article._id} 
+        onClick={() => {
+          handleViewArticle(article._id);
+          handleArticleClick(article._id);
+        }}
+        className={`${viewMode === "list" ? "flex space-x-4" : "flex flex-col bg-white shadow-sm rounded-md overflow-hidden cursor-pointer"}`}
+      >
+        <div className={`${viewMode === "list" ? "w-36 h-36" : "w-full h-48"} relative overflow-hidden`}>
+          <img
+            src={article.featuredImage?.length > 0 ? `http://localhost:8000${article.featuredImage[0]}` : "/images/default-news.jpg"}
+            alt={article.title}
+            className="w-full h-full object-cover"
+          />
+          {/* Date badge */}
+          {/* Category label */}
+          <div className="absolute bottom-0 left-0 bg-yellow-400 text-white py-1 px-4 uppercase text-sm font-medium">
+            {article.category || "PHOTOS"}
+          </div>
         </div>
-      ) : error ? (
-        <div className="flex justify-center py-12">
-          <p className="text-red-500">{error}</p>
+        
+        <div className="p-4">
+          <h2 className="text-xl font-bold mb-2 text-gray-800 leading-tight">
+            {article.title}
+          </h2>
+          <p className="text-gray-500 font-normal mb-4">
+            {article.excerpt || article.content?.substring(0, 100) + '...' || 'Typography is the visual component of the written word. It is for the benefit of the reader, not the writer.'}
+          </p>
+          <div className="flex items-center text-gray-400 text-sm">
+          <span className="flex items-center mr-4">
+  <svg
+    className="w-4 h-4 mr-1"
+    fill="currentColor"
+    viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+    <path
+      fillRule="evenodd"
+      d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
+      clipRule="evenodd"
+    />
+  </svg>
+  {article.viewsCount}
+</span>
+            <span className="text-lg font-bold leading-none">
+              {new Date(article.createdAt).getDate()}
+            </span>
+            <span className="text-xs uppercase">
+              {new Date(article.createdAt).toLocaleString('default', { month: 'short' })}
+            </span>
+          </div>
         </div>
-      ) : (
-        <div className={viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" : "space-y-4"}>
-          {articles.map((article) => (
-            <div key={article._id}  onClick={() => {
-              handleViewArticle(article._id);
-              handleArticleClick(article._id);
-            }}  className={viewMode === "list" ? " flex space-x-4" : ""}
-            >
-              <div className="block cursor-pointer">
-                <div className={`${viewMode === "list" ? "w-36 h-36" : "w-full h-48"} overflow-hidden mb-2`}>
-                <img
-                    src={article.featuredImage?.length > 0 ? `http://localhost:8000${article.featuredImage[0]}` : "/images/default-news.jpg"}
-                    alt={article.title}
-                    className="w-full h-full object-cover"
-                    />
-                </div>
-              </div>
-              <div>
-                <div className="text-blue-700 font-medium block mb-2">
-                  {article.category}
-                </div>
-                <div className="block">
-                  <h2 className="text-xl font-bold mb-2 hover:text-blue-700">{article.title}</h2>
-                </div>
-                <p className="text-gray-500">
-                  {new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(article.createdAt))}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      </div>
+    ))}
+  </div>
+)}
 
       {/* Pagination could be added here */}
       <div className="flex justify-center mt-6">

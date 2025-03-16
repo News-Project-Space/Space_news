@@ -24,9 +24,10 @@
   app.use(cookiesParser());
   app.use(
     cors({
-      origin: "*", // Make sure this is the correct frontend URL
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials: true, 
+      origin: (_, callback) => {
+        callback(null, true);
+      },
+      credentials: true,
     })
   );
   app.use(express.json()); 
