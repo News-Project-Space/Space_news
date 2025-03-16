@@ -4,6 +4,7 @@ import UserMetrics from "./UserMetrics";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
+  const [pendingJournalists, setPendingJournalists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -26,6 +27,7 @@ const AdminUsers = () => {
           }
         );
         setUsers(resUsers.data.users);
+        setPendingJournalists(resJournalists.data.journalists);
       } catch (err) {
         setError(err.response?.data?.message || err.message);
       } finally {
@@ -50,12 +52,16 @@ const AdminUsers = () => {
       count: approvedJournalists.length,
       color: "#10B981",
     },
+    { category: "Pending", count: pendingJournalists.length, color: "#F59E0B" },
     { category: "Readers", count: readers.length, color: "#8B5CF6" },
   ];
 
   // Calculate total users for percentage
   const totalUsers =
-    admins.length + approvedJournalists.length + readers.length;
+    admins.length +
+    approvedJournalists.length +
+    readers.length +
+    pendingJournalists.length;
 
   // User Card Component
   const UserCard = ({ user, badgeText, badgeColor }) => (
@@ -180,6 +186,33 @@ const AdminUsers = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-6 rounded-lg shadow text-white">
+                <h2 className="text-xl font-semibold mb-6">User Summary</h2>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center pb-2 border-b border-blue-400">
+                    <span>Total Users</span>
+                    <span className="text-2xl font-bold">{totalUsers}</span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-blue-400">
+                    <span>Pending Approvals</span>
+                    <span className="text-2xl font-bold">
+                      {pendingJournalists.length}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span>Journalists Ratio</span>
+                    <span className="text-2xl font-bold">
+                      {totalUsers > 0
+                        ? Math.round(
+                            (approvedJournalists.length / totalUsers) * 100
+                          )
+                        : 0}
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* User Lists */}
@@ -242,8 +275,37 @@ const AdminUsers = () => {
                 </div>
               </div>
 
+              {/* Pending Journalists */}
+              <div className="bg-white p-6 rounded-lg shadow">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">
+                    <span className="inline-block w-3 h-3 bg-yellow-500 rounded-full mr-2"></span>
+                    Pending Approvals
+                  </h2>
+                  <span className="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-semibold">
+                    {pendingJournalists.length} requests
+                  </span>
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {pendingJournalists.length === 0 ? (
+                    <p className="text-gray-500 italic py-4">
+                      No pending requests
+                    </p>
+                  ) : (
+                    pendingJournalists.map((journalist) => (
+                      <UserCard
+                        key={journalist._id}
+                        user={journalist}
+                        badgeText={journalist.status}
+                        badgeColor="bg-yellow-100 text-yellow-800"
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+
               {/* Readers */}
-              <div className="bg-white p-6 rounded-lg shadow w-full">
+              <div className="bg-white p-6 rounded-lg shadow">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-xl font-semibold">
                     <span className="inline-block w-3 h-3 bg-purple-500 rounded-full mr-2"></span>
