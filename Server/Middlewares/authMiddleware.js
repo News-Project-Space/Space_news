@@ -14,10 +14,10 @@ const authMiddleware = (req, res, next) => {
       return res.status(401).json({ message: "Invalid token structure" });
     }
 
-    req.user = decoded;
+    req.user = decoded;  
     console.log("Authenticated User:", req.user);
 
-    next();
+    next();  
 
   } catch (error) {
     return res.status(401).json({ message: "Token is not valid" });

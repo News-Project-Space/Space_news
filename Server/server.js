@@ -21,7 +21,6 @@ const authMiddleware = require('./Middlewares/authMiddleware');
 
 
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -42,9 +41,6 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // Register Routes
 app.use("/api/auth", authRoutes);  
 app.use('/api', journalistRouter);
@@ -55,6 +51,10 @@ app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
+
+
 // Connect to MongoDB using connectDB function
 connectDB();
 
