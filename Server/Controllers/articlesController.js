@@ -27,6 +27,36 @@ exports.getAllArticles = async (req, res) => {
   };
 
 
+
+// Get Article By ID
+exports.getArticleById = async (req, res) => {
+    try {
+        const articleId = req.params.id; // get id from url
+
+        const article = await Article.findById(articleId);
+
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        res.status(200).json(article);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Get Article By ID
 exports.getArticleById = async (req, res) => {
   try {

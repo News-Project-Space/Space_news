@@ -12,14 +12,14 @@ import {
   Profile,
   Register,
   ToBeJournalist,
-  PageNotFound,
-} from "./components";
+  PageNotFound
+} from "./Components";
 import Footer from "./Components/Footer/Footer";
 
 // NEW IMPORTS:
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import AboutUs from "./components/About/About";
+import AboutUs from "./Components/About/About";
 
 function App() {
   const router = createBrowserRouter([
