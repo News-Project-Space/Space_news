@@ -13,6 +13,7 @@ router.get("/filter", getAllArticles);
 // Route to handle article view count and reading history
 router.post("/view/:articleId",authMiddleware, viewArticle);
 router.get("/top-viewed", getTopViewedArticles);
+router.get('/articles/:id', getArticleById);
 router.get("/get/:id", getArticleById);
 
 
