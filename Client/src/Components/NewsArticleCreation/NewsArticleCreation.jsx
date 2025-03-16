@@ -37,6 +37,9 @@ const NewsArticleCreation = () => {
     return null;
   };
 
+  // console.log(localStorage.getItem("token"));
+
+
   const handleChange = (e) => {
     if (e.target.name === "featuredImage") {
       setFormData({ ...formData, featuredImage: [...e.target.files] });
@@ -62,6 +65,9 @@ const NewsArticleCreation = () => {
 
     try {
       const token = getCookie("token");
+//       const token = localStorage.getItem("token");
+// console.log("Token from localStorage:", token);
+
       const data = new FormData();
 
       data.append("title", formData.title);
