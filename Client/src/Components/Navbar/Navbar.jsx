@@ -159,7 +159,7 @@ useEffect(() => {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center space-x-2 focus:outline-none"
+                  className="flex items-center cursor-pointer space-x-2 focus:outline-none"
                 >
                   <FaUserCircle size={32} className="text-white" />
                   <span className="text-white font-medium">{userData?.fullName}</span>
