@@ -47,7 +47,7 @@ const registerUser = async (req, res) => {
     const token = jwt.sign(
       { _id: newUser._id, role: newUser.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "2h" }
     );
 
     res.status(201).json({
@@ -92,7 +92,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
       { _id: user._id, role: user.role },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
+      { expiresIn: "2h" } // Token expires in 1 hour
     );
 
     res.status(200).json({
@@ -110,4 +110,13 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+// دالة لفك التوكن
+const verifyToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    return decoded; // يحتوي على _id و email و role
+  } catch (error) {
+    throw new Error("توكن غير صالح");
+  }
+};
+module.exports = { registerUser, loginUser, verifyToken };

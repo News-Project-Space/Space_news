@@ -10,6 +10,7 @@ const user = require("./Routes/user");
 const articleRoutes = require("./Routes/articlesRoute");
 const contactRoutes = require("./Routes/contactRouter");
 const adminRouter = require("./Routes/adminRouter");
+const commentRoutes = require('./Routes/commentRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,7 +20,7 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: "*", // Make sure this is the correct frontend URL
+    origin: "http://localhost:5173", // Make sure this is the correct frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // Make sure cookies are included if you're using JWT in cookies
   })
@@ -43,6 +44,7 @@ const authMiddleware = require("./Middlewares/authMiddleware");
 app.use("/api", journalistRouter);
 app.use("/api/articles", articleRoutes);
 app.use("/api/user", user);
+app.use('/api', commentRoutes);
 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
