@@ -3,7 +3,7 @@ import axios from "axios";
 
 const FeaturedSection = () => {
   const [featuredNews, setFeaturedNews] = useState([]);
-
+  
   useEffect(() => {
     // Fetch top 4 most viewed articles
     const fetchTopArticles = async () => {
