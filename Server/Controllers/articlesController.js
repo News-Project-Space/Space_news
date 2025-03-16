@@ -45,14 +45,24 @@ exports.getArticleById = async (req, res) => {
 };
 
 
+  // Get Article By ID
+exports.getArticleById = async (req, res) => {
+  try {
+      const { id: articleId } = req.params; // استخراج ID من الـ URL
 
+      if (!articleId) {
+          return res.status(400).json({ message: 'Article ID is required' });
+      }
 
+      const article = await Article.findById(articleId);
 
+      if (!article) {
+          return res.status(404).json({ message: 'Article not found' });
+      }
 
-
-
-
-
-
-
-
+      res.status(200).json(article);
+  } catch (error) {
+      console.error("Error fetching article:", error);
+      res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

@@ -40,11 +40,10 @@ const createJournalist = async (req, res) => {
       return res.status(400).json({ message: "All Data required " });
     }
 
-    const existingJournalist = await Journalist.findOne({ email });
-    if (existingJournalist) {
-      console.log("Existing Journalist Error: هذا البريد الإلكتروني مستخدم بالفعل");
-      return res.status(400).json({ message: "Email is used" });
-    }
+    const existingJournalist = await Journalist.findOne({ userId });
+if (existingJournalist) {
+  return res.status(400).json({ message: "User has already applied" });
+}
 
     const journalist = new Journalist({
       userId,
@@ -91,6 +90,22 @@ const getJournalistById = async (req, res) => {
     res.status(500).json({ message: "خطأ في جلب بيانات الصحفي", error: error.message });
   }
 };
+
+// جلب صحفي عبر userId
+const getJournalistByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const journalist = await Journalist.findOne({ userId });
+    if (!journalist) {
+      return res.status(404).json({ message: "الصحفي غير موجود" });
+    }
+    res.status(200).json(journalist);
+  } catch (error) {
+    console.error("Error in getJournalistByUserId:", error);
+    res.status(500).json({ message: "خطأ في جلب بيانات الصحفي", error: error.message });
+  }
+};
+
 
 // تحديث بيانات الصحفي
 const updateJournalist = async (req, res) => {
@@ -140,6 +155,7 @@ module.exports = {
   createJournalist,
   getAllJournalists,
   getJournalistById,
+  getJournalistByUserId,
   updateJournalist,
   deleteJournalist,
 };
