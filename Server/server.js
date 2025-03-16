@@ -21,7 +21,6 @@ const authMiddleware = require('./Middlewares/authMiddleware');
 
 
 
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -30,9 +29,9 @@ app.use(bodyParser.json());
 app.use(cookiesParser());
 app.use(
   cors({
-    origin: "*", // Make sure this is the correct frontend URL
+    origin: "*", 
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Make sure cookies are included if you're using JWT in cookies
+    credentials: true, 
   })
 );
 app.use(express.json()); 
@@ -40,9 +39,6 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Register Routes
 app.use("/api/auth", authRoutes);  
@@ -52,9 +48,12 @@ app.use("/api/articles", newArticleRoutes);
 app.use("/api/user", user);
 app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
-app.use("/uploads", express.static("uploads"));
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+
+
+
 // Connect to MongoDB using connectDB function
 connectDB();
 
