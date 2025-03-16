@@ -51,6 +51,7 @@ app.use("/api/articles", newArticleRoutes);
 app.use("/api/user", user);
 app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
+app.use("/uploads", express.static("uploads"));
 
 // Connect to MongoDB using connectDB function
 connectDB();
