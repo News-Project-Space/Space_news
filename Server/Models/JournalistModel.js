@@ -3,7 +3,6 @@ const JournalistSchema = new mongoose.Schema(
     {
       userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
       fullName: { type: String, required: true },
-      email: { type: String, required: true, unique: true },
       portfolio: { type: String, required: true },
       bio: { type: String, required: true },
       profileImage: { type: String, required: true },
@@ -12,5 +11,5 @@ const JournalistSchema = new mongoose.Schema(
     { timestamps: true }
   );
   
-  module.exports = mongoose.model("Journalist", JournalistSchema);
+  module.exports = mongoose.model("Journalists", JournalistSchema);
   
