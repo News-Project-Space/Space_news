@@ -74,15 +74,12 @@ const Login = () => {
         style={{
           background: "linear-gradient(135deg, #21209C 0%, #23120B 100%)",
           backgroundImage:
-            "url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1200')",
+            "url('https://images.pexels.com/photos/9423870/pexels-photo-9423870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <div
-          className="absolute inset-0"
-          style={{ backgroundColor: "rgba(33, 32, 156, 0.7)" }}
-        ></div>
+        
 
         {/* Logo */}
         <div className="absolute top-8 left-8 z-10 flex items-center">
