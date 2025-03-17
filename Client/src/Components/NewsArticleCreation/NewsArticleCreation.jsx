@@ -3,18 +3,28 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 const NewsArticleCreation = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [userData, setUserData] = useState(null);
+  const [categoryF, setCategoryF] = useState("");
+
+  const categories = [
+    "Astrobiology & Alien Life",
+    "Astronomy & Space Science",
+    "Space Technology & Innovation",
+  ];
+
+  console.log(categoryF);
+  
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    category: "",
+    category: categoryF,
     tags: "",
     featuredImage: [], 
     featuredVideo: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [userData, setUserData] = useState(null);
-  
+
   const authorId = useSelector((state) => state.user.userId);
   const userRole = useSelector((state) => state.user.role);  
 
@@ -72,7 +82,7 @@ const NewsArticleCreation = () => {
 
       data.append("title", formData.title);
       data.append("content", formData.content);
-      data.append("category", formData.category);
+      data.append("category", categoryF);
       data.append("tags", formData.tags);
       data.append("featuredVideo", formData.featuredVideo);
       data.append("authorId", authorId);
@@ -137,16 +147,18 @@ const NewsArticleCreation = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2 font-medium">Category</label>
-              <input
-                type="text"
-                name="category"
-                placeholder="Solar System, Alien Life, etc."
-                value={formData.category}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FDB827] focus:border-transparent"
-                required
-              />
+              {/* Category Filter */}
+              <label className="block text-gray-700 mb-2 mt-1 font-medium">Category</label>
+          <select
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FDB827] focus:border-transparent px-4 py-2 rounded text-gray-700"
+            value={categoryF}
+            onChange={(e) => setCategoryF(e.target.value)}
+          >
+            <option value="The Solar System">The Solar System</option>
+            {categories.map((category, index) => (
+              <option key={index} value={category}>{category}</option>
+            ))}
+          </select>
             </div>
           </div>
 

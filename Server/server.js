@@ -45,6 +45,19 @@ app.use("/api", contactRoutes);
 app.use("/api/articles", LikeRouter);
 app.use("/api/articles", CommentRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve static files from the uploads folder
+// Middleware
+app.use(bodyParser.json());
+app.use(cookiesParser());
+app.use(
+  cors({
+    origin: (_, callback) => {
+      callback(null, true);
+    },
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB using connectDB function
 connectDB();

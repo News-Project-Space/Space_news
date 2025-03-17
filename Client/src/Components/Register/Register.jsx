@@ -55,24 +55,12 @@ const Register = () => {
     });
   };
 
-  // Frontend Validation
-  // if (!formData.fullName || !formData.email || !formData.password || formData.preferences.length === 0) {
-  //   setError("All fields are required.");
-  //   return;
-  // }
-
-  // if (formData.password.length < 8) {
-  //   setError("Password must be at least 8 characters long.");
-  //   return;
-  // }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
       const response = await fetch("http://localhost:8000/api/auth/register", {
-        // Ensure the backend is on this URL
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -89,7 +77,6 @@ const Register = () => {
         return;
       }
       const result = await response.json();
-      console.log(result.user.id);
       dispatch(setUserId(result.user.id));
       setSuccess("Registration successful! Redirecting to home page...");
 
@@ -98,7 +85,6 @@ const Register = () => {
       expires.setMinutes(expires.getMinutes() + 60);
       document.cookie = `token=${token};expires=${expires.toUTCString()};path=/;secure`;
 
-      // Redirect after a short delay
       setTimeout(() => navigate("/login"), 1500);
     } catch (error) {
       console.log(error);
@@ -110,14 +96,13 @@ const Register = () => {
     <div className="flex h-screen bg-[#F1F1F1] overflow-hidden">
       {/* Left side - Image */}
       <div className="hidden md:block md:w-2/5 relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#23120B] to-[#21209C] opacity-90"></div>
+        <div className="absolute inset-0 bg-black opacity-90"></div>
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1464802686167-b939a6910659?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1150&q=80')`,
+            backgroundImage: `url('https://images.pexels.com/photos/9423870/pexels-photo-9423870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            mixBlendMode: "overlay",
           }}
         ></div>
         <div className="relative h-full flex flex-col justify-between p-8 text-[#F1F1F1]">
@@ -127,24 +112,21 @@ const Register = () => {
             </div>
             <span className="ml-2 font-semibold text-lg">ORBITRA</span>
           </div>
-          <div>
-            <h2 className="text-3xl font-bold mb-4 leading-tight">
-              Discover the <span className="text-[#FDB827]">wonders</span>
-              <br />
-              of the cosmos
-            </h2>
-            <p className="mb-4 text-[#F1F1F1]/80 text-sm leading-relaxed">
-              Join our community of space enthusiasts and embark on a journey
-              through the universe.
+          <h2 className="text-3xl font-bold mb-4 leading-tight">
+            Discover the <span className="text-[#FDB827]">wonders</span>
+            <br />
+            of the cosmos
+          </h2>
+          <p className="mb-4 text-[#F1F1F1]/80 text-sm leading-relaxed">
+            Join our community of space enthusiasts and embark on a journey
+            through the universe.
+          </p>
+          <div className="flex items-center space-x-4 mt-4">
+            <div className="w-8 h-1 bg-[#FDB827]"></div>
+            <p className="text-xs text-[#F1F1F1]/70">
+              Over 10,000 explorers already joined
             </p>
-            <div className="flex items-center space-x-4 mt-4">
-              <div className="w-8 h-1 bg-[#FDB827]"></div>
-              <p className="text-xs text-[#F1F1F1]/70">
-                Over 10,000 explorers already joined
-              </p>
-            </div>
           </div>
-          <span className="ml-2 font-semibold text-lg">ExploreMe</span>
         </div>
       </div>
 
@@ -375,4 +357,5 @@ const Register = () => {
     </div>
   );
 };
+
 export default Register;

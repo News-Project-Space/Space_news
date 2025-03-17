@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const ArticleTwo = () => {
-    const id = "67d6a257bd1a71723bfe3b69";
+    const id = "67d6a0febd1a71723bfe3b67";
     const [article, setArticle] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
@@ -86,7 +86,7 @@ const ArticleTwo = () => {
                 <div className="lg:w-2/3 relative">
                     <div className="aspect-w-16 aspect-h-9 bg-gray-200 rounded-lg overflow-hidden">
                         <img 
-                            src={article.imageUrl || "https://images.pexels.com/photos/1983032/pexels-photo-1983032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} 
+                            src={article.imageUrl || "https://i.pinimg.com/736x/f6/99/b1/f699b13d9b8af3cf79d44fac352421e7.jpg"} 
                             alt={article.title} 
                             className="w-full h-full object-cover"
                         />
