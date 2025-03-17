@@ -16,7 +16,7 @@ const About = () => {
             backgroundPosition: "center",
           }}
         >
-          <div className="absolute inset-0 bg-[#21209C] opacity-60"></div>
+          <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
 
         {/* Header Content */}
@@ -140,7 +140,7 @@ const About = () => {
       </div>
 
       {/* Our Story Section */}
-      <div className="bg-[#21209C] py-16 px-4">
+      <div className="bg-black py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
