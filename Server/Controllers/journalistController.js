@@ -91,6 +91,22 @@ const getJournalistById = async (req, res) => {
   }
 };
 
+// جلب صحفي عبر userId
+const getJournalistByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const journalist = await Journalist.findOne({ userId });
+    if (!journalist) {
+      return res.status(404).json({ message: "الصحفي غير موجود" });
+    }
+    res.status(200).json(journalist);
+  } catch (error) {
+    console.error("Error in getJournalistByUserId:", error);
+    res.status(500).json({ message: "خطأ في جلب بيانات الصحفي", error: error.message });
+  }
+};
+
+
 // تحديث بيانات الصحفي
 const updateJournalist = async (req, res) => {
   try {
@@ -139,6 +155,7 @@ module.exports = {
   createJournalist,
   getAllJournalists,
   getJournalistById,
+  getJournalistByUserId,
   updateJournalist,
   deleteJournalist,
 };

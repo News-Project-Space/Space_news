@@ -68,7 +68,7 @@ const Articleone = () => {
                         <div className="max-w-3xl">
                             {/* Article Category Badge */}
                             <div className="mb-4">
-                                <span className="bg-yellow-400 text-white text-sm font-bold px-4 py-1 rounded-full">
+                                <span className=" text-white text-sm font-bold px-4 py-1 rounded-full">
                                     {article.category || "FEATURED"}
                                 </span>
                             </div>

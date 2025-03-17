@@ -35,7 +35,7 @@ const UserMetrics = () => {
 
   if (error)
     return (
-      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-md">
+      <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-md ">
         <div className="flex items-center">
           <svg
             className="h-6 w-6 text-red-500 mr-3"
@@ -122,7 +122,7 @@ const UserMetrics = () => {
   ];
 
   return (
-    <div className="p-4">
+    <div className="p-4 ">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
         Dashboard Overview
       </h1>
