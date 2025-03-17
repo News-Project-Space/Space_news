@@ -13,8 +13,12 @@
   const adminRouter = require("./Routes/adminRouter");
   const journalistRouter = require("./Routes/journalistRouter");
   const authMiddleware = require("./Middlewares/authMiddleware");
-  const articleRoutes = require("./Routes/articlesRoute")
-  const newArticleRoutes = require("./Routes/newArticleRoute")
+  const articleRoutes = require("./Routes/articlesRoute");
+  const newArticleRoutes = require("./Routes/newArticleRoute");
+  const LikeRouter = require('./Routes/LikeRouter');
+  const CommentRouter = require('./Routes/commentRoutes'); // استيراد CommentRouter
+
+
 
   const app = express();
   const PORT = process.env.PORT || 5000;
@@ -44,6 +48,9 @@
   app.use("/api/user", user);
   app.use("/api/admin", adminRouter);
   app.use("/api", contactRoutes);
+  app.use('/api/articles', LikeRouter);
+  app.use('/api/articles', CommentRouter); 
+
 
   app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

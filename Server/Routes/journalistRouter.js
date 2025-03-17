@@ -14,8 +14,9 @@ router.post(
 router.get("/journalists", authMiddleware, journalistController.getAllJournalists);
 
 // جلب صحفي عبر ID
-router.get("/journalists/:id", authMiddleware, journalistController.getJournalistById);
-
+router.get("/journalists/:id", journalistController.getJournalistById);
+// جلب صحفي عبر userId
+router.get("/journalists/user/:userId", journalistController.getJournalistByUserId);
 // تحديث بيانات الصحفي
 router.put(
   "/journalists/:id",

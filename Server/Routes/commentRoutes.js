@@ -1,17 +1,12 @@
 const express = require('express');
+const CommentController = require('../Controllers/commentController');
+
 const router = express.Router();
-const commentController = require('../Controllers/commentController');
 
-// إنشاء تعليق جديد
-router.post('/comments', commentController.createComment);
+// إضافة تعليق جديد
+router.post('/:articleId/comment', CommentController.addComment);
 
-// جلب جميع التعليقات لمقال معين
-router.get('/comments/article/:articleId', commentController.getCommentsByArticleId);
-
-// تحديث تعليق
-router.put('/comments/:id', commentController.updateComment);
-
-// حذف تعليق
-router.delete('/comments/:id', commentController.deleteComment);
+// عرض جميع التعليقات لمقال معين
+router.get('/:articleId/comments', CommentController.getComments);
 
 module.exports = router;
