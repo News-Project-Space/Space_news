@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -12,6 +12,8 @@ const UserSchema = new mongoose.Schema(
     },
     profilePicture: { type: String, default: "" },
     preferences: { type: [String], default: [] },
+    // Field for soft deletion
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
