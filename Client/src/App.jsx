@@ -12,12 +12,16 @@ import {
   Profile,
   Register,
   ToBeJournalist,
-  PageNotFound
+  PageNotFound,
 } from "./Components";
 import Footer from "./Components/Footer/Footer";
 
 // NEW IMPORTS:
+import AdminLayout from "./Components/AdminDashboard/AdminLayout";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
+import AdminUsers from "./Components/AdminDashboard/AdminUsers";
+import ArticlesList from "./Components/AdminDashboard/ArticlesList";
+import AdminArticleDetails from "./Components/AdminDashboard/AdminArticleDetails";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AboutUs from "./Components/About/About";
 
@@ -29,7 +33,8 @@ function App() {
         <>
           <Navbar />
           <Footer />
-        </>),
+        </>
+      ),
       children: [
         {
           index: true,
@@ -89,9 +94,15 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedRoute requiredRole="admin">
-          <AdminDashboard />
+          <AdminLayout />
         </ProtectedRoute>
       ),
+      children: [
+        { index: true, element: <AdminDashboard /> },
+        { path: "articles", element: <ArticlesList /> },
+        { path: "articles/:id", element: <AdminArticleDetails /> }, // <--- This route
+        { path: "users", element: <AdminUsers /> },
+      ],
       errorElement: <PageNotFound />,
     },
     // ----------------------------------

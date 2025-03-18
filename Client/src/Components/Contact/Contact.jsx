@@ -57,10 +57,10 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#F1F1F1]">
+    <div className="flex min-h-screen bg-white ">
       {/* Left side - Space-themed image */}
       <div className="hidden md:flex md:w-1/2 relative">
-        <div className="absolute inset-0 bg-[#21209C] opacity-70 z-10"></div>
+        <div className="absolute inset-0 bg-black opacity-70 z-10"></div>
         
         <div 
           className="absolute inset-0 bg-cover bg-center"

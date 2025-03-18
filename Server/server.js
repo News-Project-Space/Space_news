@@ -15,6 +15,8 @@ const journalistRouter = require("./Routes/journalistRouter");
 const authMiddleware = require("./Middlewares/authMiddleware");
 const articleRoutes = require("./Routes/articlesRoute");
 const newArticleRoutes = require("./Routes/newArticleRoute");
+const LikeRouter = require("./Routes/LikeRouter");
+const CommentRouter = require("./Routes/commentRoutes"); // استيراد CommentRouter
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,12 +35,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Register Routes
-app.use("/api/auth", authRoutes); // Use authRoutes for handling the registration and login routes
-app.use("/api/admin", adminRouter);
-app.use("/api", contactRoutes);
-app.use("/api/articles", articleRoutes);
-
-// Register Routes
 app.use("/api/auth", authRoutes);
 app.use("/api", journalistRouter);
 app.use("/api/articles", articleRoutes);
@@ -46,8 +42,22 @@ app.use("/api/articles", newArticleRoutes);
 app.use("/api/user", user);
 app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
-
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/api/articles", LikeRouter);
+app.use("/api/articles", CommentRouter);
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve static files from the uploads folder
+// Middleware
+app.use(bodyParser.json());
+app.use(cookiesParser());
+app.use(
+  cors({
+    origin: (_, callback) => {
+      callback(null, true);
+    },
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB using connectDB function
 connectDB();

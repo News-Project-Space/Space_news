@@ -12,6 +12,7 @@ const ArticleSchema = new mongoose.Schema(
       status: { type: String, enum: ["draft", "pending", "approved", "rejected"], default: "pending" },
       viewsCount: { type: Number, default: 0 },
       likesCount: { type: Number, default: 0 },
+      comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comments' }],
       commentsCount: { type: Number, default: 0 },
     },
     { timestamps: true }

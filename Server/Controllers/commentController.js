@@ -1,70 +1,62 @@
 const Comment = require('../Models/CommentModel');
+const Article = require('../Models/articlesModel');
+const User = require('../Models/UserModel'); // استيراد نموذج المستخدم
 
-// إنشاء تعليق جديد
-exports.createComment = async (req, res) => {
+exports.addComment = async (req, res) => {
+  const { articleId } = req.params;
+  const { userId, content } = req.body;
+
   try {
-    const { articleId, userId, content } = req.body;
+    // التحقق من وجود المقالة
+    const article = await Article.findById(articleId);
+    if (!article) {
+      return res.status(404).json({ message: 'المقالة غير موجودة.' });
+    }
 
+    // التحقق من وجود المستخدم
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'المستخدم غير موجود.' });
+    }
+
+    // إنشاء تعليق جديد مع اسم المستخدم
     const comment = new Comment({
       articleId,
       userId,
       content,
+      username: user.fullName, // إضافة اسم المستخدم إلى التعليق
     });
-
     await comment.save();
-    res.status(201).json({ message: 'تم إنشاء التعليق بنجاح', comment });
+
+    // إضافة التعليق إلى المقالة (اختياري)
+    article.comments.push(comment._id);
+    await article.save();
+
+    // إرجاع التعليق مع اسم المستخدم
+    res.status(201).json({ message: 'تمت إضافة التعليق بنجاح.', comment });
   } catch (error) {
-    res.status(500).json({ message: 'حدث خطأ في الخادم', error: error.message });
+    console.error("❌ خطأ في إضافة التعليق:", error);
+    res.status(500).json({ message: 'حدث خطأ أثناء إضافة التعليق.', error: error.message });
   }
 };
 
-// جلب جميع التعليقات لمقال معين
-exports.getCommentsByArticleId = async (req, res) => {
+exports.getComments = async (req, res) => {
+  const { articleId } = req.params;
+
   try {
-    const { articleId } = req.params;
-
-    const comments = await Comment.find({ articleId }).populate('userId', 'username'); // يمكنك تعديل الحقول التي تريد جلبها من النموذج User
-    res.status(200).json(comments);
-  } catch (error) {
-    res.status(500).json({ message: 'حدث خطأ في الخادم', error: error.message });
-  }
-};
-
-// تحديث تعليق
-exports.updateComment = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { content } = req.body;
-
-    const comment = await Comment.findByIdAndUpdate(
-      id,
-      { content },
-      { new: true }
-    );
-
-    if (!comment) {
-      return res.status(404).json({ message: 'لم يتم العثور على التعليق' });
+    // التحقق من وجود المقالة
+    const article = await Article.findById(articleId);
+    if (!article) {
+      return res.status(404).json({ message: 'المقالة غير موجودة.' });
     }
 
-    res.status(200).json({ message: 'تم تحديث التعليق بنجاح', comment });
+    // جلب جميع التعليقات المرتبطة بالمقالة
+    const comments = await Comment.find({ articleId })
+      .sort({ createdAt: -1 }); // ترتيب التعليقات من الأحدث إلى الأقدم
+
+    res.status(200).json({ comments });
   } catch (error) {
-    res.status(500).json({ message: 'حدث خطأ في الخادم', error: error.message });
-  }
-};
-
-// حذف تعليق
-exports.deleteComment = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const comment = await Comment.findByIdAndDelete(id);
-
-    if (!comment) {
-      return res.status(404).json({ message: 'لم يتم العثور على التعليق' });
-    }
-
-    res.status(200).json({ message: 'تم حذف التعليق بنجاح' });
-  } catch (error) {
-    res.status(500).json({ message: 'حدث خطأ في الخادم', error: error.message });
+    console.error("❌ خطأ في جلب التعليقات:", error);
+    res.status(500).json({ message: 'حدث خطأ أثناء جلب التعليقات.', error: error.message });
   }
 };

@@ -49,7 +49,7 @@ const Articleone = () => {
     // ?`http://localhost:8000${article.featuredImage[0]} `
     // : "/images/default-news.jpg";
     return (
-        <div className="relative min-h-screen">
+        <div className="relative min-h-170">
             {/* Hero Section with Background Image */}
             <div
                 className="absolute inset-0 bg-cover bg-center"
@@ -64,7 +64,7 @@ const Articleone = () => {
             <div className="relative z-10 min-h-150 flex flex-col">
                 {/* Main Content - Takes up most of the viewport */}
                 <main className="flex-grow flex items-end">
-                    <div className="container mx-auto px-8 pb-16">
+                    <div className="container mx-auto px-8 pb-10">
                         <div className="max-w-3xl">
                             {/* Article Category Badge */}
                             <div className="mb-4">
@@ -87,7 +87,7 @@ const Articleone = () => {
                             <div className="flex flex-wrap gap-4">
                                 <button
                                     onClick={handleReadMore}
-                                    className="bg-yellow-400 hover:bg-yellow-500 font-bold transition-colors text-white px-8 py-3 rounded-full"
+                                    className="bg-yellow-400 cursor-pointer hover:bg-yellow-500 font-bold transition-colors text-white px-8 py-3 rounded-full"
                                 >
                                     Read Full Article
                                 </button>
