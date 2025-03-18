@@ -13,6 +13,7 @@ import {
   Register,
   ToBeJournalist,
   PageNotFound,
+  SubscriptionCardDisplay,PaymentPage 
 } from "./Components";
 import Footer from "./Components/Footer/Footer";
 
@@ -73,7 +74,14 @@ function App() {
           path: "/Profile/:id",
           element: <Profile />,
         },
+        {    
+          path: '/subscribtion',
+          element: <SubscriptionCardDisplay />
+        },
         {
+          path: '/PaymentPage',
+          element: <PaymentPage />
+        }
           path: "/NewsArticleCreation",
           element: <NewsArticleCreation />,
         },

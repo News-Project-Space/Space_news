@@ -10,6 +10,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./Routes/signupRouter"); // Import your auth routes for registration
 const user = require("./Routes/user");
 const contactRoutes = require("./Routes/contactRouter");
+const paymentRoutes = require("./Routes/paymentRoute");
 const adminRouter = require("./Routes/adminRouter");
 const journalistRouter = require("./Routes/journalistRouter");
 const authMiddleware = require("./Middlewares/authMiddleware");
@@ -42,6 +43,12 @@ app.use("/api/articles", newArticleRoutes);
 app.use("/api/user", user);
 app.use("/api/admin", adminRouter);
 app.use("/api", contactRoutes);
+app.use("/api", paymentRoutes);
+
+app.post('/api/payments', (req, res) => {
+  res.json({ message: 'Payment endpoint hit' });
+});
+
 app.use("/api/articles", LikeRouter);
 app.use("/api/articles", CommentRouter);
 app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve static files from the uploads folder
