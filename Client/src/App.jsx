@@ -14,58 +14,67 @@ import {
   ToBeJournalist,
   PageNotFound,
   SubscriptionCardDisplay,PaymentPage 
-} from "./components";
+} from "./Components";
 import Footer from "./Components/Footer/Footer";
+
+// NEW IMPORTS:
+import AdminLayout from "./Components/AdminDashboard/AdminLayout";
+import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
+import AdminUsers from "./Components/AdminDashboard/AdminUsers";
+import ArticlesList from "./Components/AdminDashboard/ArticlesList";
+import AdminArticleDetails from "./Components/AdminDashboard/AdminArticleDetails";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import AboutUs from "./Components/About/About";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Navbar />,
+      element: (
+        <>
+          <Navbar />
+          <Footer />
+        </>
+      ),
       children: [
         {
           index: true,
-          element: <Home />
-        },
-        
-        {
-          path: '/',
           element: <Home />,
-          errorElement: <PageNotFound />
         },
         {
-          path: '/ArticleDetails/:id',
-          element: <ArticleDetails />
+          path: "/",
+          element: <Home />,
+          errorElement: <PageNotFound />,
         },
         {
-          path: '/Bookmark',
-          element: <Bookmark />
+          path: "/ArticleDetails/:id",
+          element: <ArticleDetails />,
         },
         {
-          path: '/Categories',
-          element: <Categories />
+          path: "/Bookmark",
+          element: <Bookmark />,
         },
         {
-          path: '/Contact',
-          element: <Contact />
+          path: "/Categories",
+          element: <Categories />,
         },
         {
-          path: '/About',
-          element: <About />
+          path: "/Contact",
+          element: <Contact />,
         },
         {
-          path: '/ToBeJournalist',
-          element: <ToBeJournalist />
+          path: "/About",
+          element: <AboutUs />,
         },
         {
-          path: '/Profile/:id',
-          element: <Profile />
+          path: "/ToBeJournalist",
+          element: <ToBeJournalist />,
         },
         {
-          path: '/NewsArticleCreation',
-          element: <NewsArticleCreation />
+          path: "/Profile/:id",
+          element: <Profile />,
         },
-        {
+        {    
           path: '/subscribtion',
           element: <SubscriptionCardDisplay />
         },
@@ -73,26 +82,45 @@ function App() {
           path: '/PaymentPage',
           element: <PaymentPage />
         }
+          path: "/NewsArticleCreation",
+          element: <NewsArticleCreation />,
+        },
       ],
-      errorElement: <PageNotFound />
+      errorElement: <PageNotFound />,
     },
     {
-      path: '/login',
-      element: <Login />
+      path: "/login",
+      element: <Login />,
     },
     {
-      path: '/Register',
-      element: <Register />
-    }
-  ])
-
+      path: "/Register",
+      element: <Register />,
+    },
+    // ----------------------------------
+    // Add the Admin route here:
+    {
+      path: "/admin",
+      element: (
+        <ProtectedRoute requiredRole="admin">
+          <AdminLayout />
+        </ProtectedRoute>
+      ),
+      children: [
+        { index: true, element: <AdminDashboard /> },
+        { path: "articles", element: <ArticlesList /> },
+        { path: "articles/:id", element: <AdminArticleDetails /> }, // <--- This route
+        { path: "users", element: <AdminUsers /> },
+      ],
+      errorElement: <PageNotFound />,
+    },
+    // ----------------------------------
+  ]);
 
   return (
     <>
       <RouterProvider router={router} />
-      <Footer/>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

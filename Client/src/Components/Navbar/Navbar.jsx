@@ -88,6 +88,24 @@ import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import logo from "../images/logo.png";
 import { useSelector } from "react-redux";
 
+const useUserData = (userId) => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:8000/api/user/details/${userId}`)
+        .then((response) => response.json())
+        .then((data) => setUserData(data))
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          setUserData(null);
+        });
+    }
+  }, [userId]);
+
+  return userData;
+};
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -118,14 +136,17 @@ useEffect(() => {
   if (userData?.role === "journalist") {
     navLinks.push({ path: "/NewsArticleCreation", label: "Add Article" });
   } else {
-    navLinks.push({ path: "/ToBeJournalist", label: "Join Us" });
+    navLinks.push({ path: userId ? "/ToBeJournalist" : "/login", label: "Join Us" });
   }
 
   console.log(userData);
 
   const handleLogout = () => {
- 
+    localStorage.removeItem("token"); // Remove token
+    navigate("/login"); // Redirect to login page
+    window.location.reload(); // Refresh to clear Redux state (optional)
   };
+
   return (
     <>
       <nav className="text-white backdrop-blur-md bg-black/95 sticky top-0 z-50 border-b border-gray-900 shadow-sm w-full">
@@ -159,7 +180,7 @@ useEffect(() => {
               <div className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="flex items-center space-x-2 focus:outline-none"
+                  className="flex items-center cursor-pointer space-x-2 focus:outline-none"
                 >
                   <FaUserCircle size={32} className="text-white" />
                   <span className="text-white font-medium">{userData?.fullName}</span>
@@ -175,7 +196,7 @@ useEffect(() => {
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-800"
+                      className="block w-full cursor-pointer text-left px-4 py-2 text-red-500 hover:bg-gray-800"
                     >
                       Logout
                     </button>
