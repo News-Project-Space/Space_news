@@ -11,6 +11,7 @@ import {
   WhatsappIcon,
   TwitterIcon,
 } from "react-share";
+import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
   const { id } = useParams();
@@ -19,9 +20,10 @@ const ArticleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [commentText, setCommentText] = useState("");
-  const [userId, setUserId] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
   const [comments, setComments] = useState([]);
+  const userId = useSelector((state) => state.user.userId);
+
 
   const getUserIdFromToken = () => {
     const token = Cookies.get("token");
@@ -39,7 +41,7 @@ const ArticleDetails = () => {
   useEffect(() => {
     const userIdFromToken = getUserIdFromToken();
     if (userIdFromToken) {
-      setUserId(userIdFromToken);
+      console.log("")
     } else {
       console.error("❌ لم يتم العثور على userId في التوكن.");
     }
@@ -156,17 +158,14 @@ const ArticleDetails = () => {
 
   const handleAddToBookmark = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      window.location.href = '/login';
       return;
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/articles/${id}/bookmark`,
-        {
-          userId,
-        }
-      );
+      const response = await axios.post(`http://localhost:8000/api/user/favorites/${id}`, {
+        userId: userId,
+      });
       if (response.data.success) {
         alert("تمت إضافة المقالة إلى المفضلة بنجاح!");
       }
@@ -175,6 +174,7 @@ const ArticleDetails = () => {
       alert("فشل في إضافة المقالة إلى المفضلة.");
     }
   };
+
 
   if (loading) {
     return <div className="text-center mt-8 text-[#23120B]">جاري التحميل...</div>;
