@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
   const { id } = useParams();
@@ -9,7 +10,7 @@ const ArticleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [commentText, setCommentText] = useState('');
-  const [userId, setUserId] = useState('123');
+  const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -66,9 +67,14 @@ const ArticleDetails = () => {
   };
 
   const handleAddToBookmark = async () => {
+    if (!userId) {
+      window.location.href = '/login';
+      return;
+    }
+
     try {
-      const response = await axios.post(`http://localhost:8000/api/articles/${id}/bookmark`, {
-        userId,
+      const response = await axios.post(`http://localhost:8000/api/user/favorites/${id}`, {
+        userId: userId,
       });
       if (response.data.success) {
         alert('Article added to bookmarks successfully!');
@@ -78,6 +84,7 @@ const ArticleDetails = () => {
       alert('Failed to add article to bookmarks.');
     }
   };
+
 
   if (loading) {
     return <div className="text-center mt-8">جاري التحميل...</div>;

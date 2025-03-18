@@ -17,3 +17,16 @@ Content-Type: application/json
   "fullName": "John Doe",
   "email": "www@example.com"
 }
+
+####
+
+POST http://localhost:8000/api/user/favorites/67d6a257bd1a71723bfe3b69
+Content-Type: application/json
+
+{
+  "userId": "67d440a485fa180fd2dbc4e4"
+}
+
+####
+GET http://localhost:8000/api/user/favorites?userId=67d57b7574c3651af76db56d
+
