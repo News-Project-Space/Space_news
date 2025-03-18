@@ -12,9 +12,11 @@ import {
   Profile,
   Register,
   ToBeJournalist,
-  PageNotFound
+  PageNotFound,
+  SubscriptionCardDisplay,PaymentPage 
 } from "./components";
 import Footer from "./Components/Footer/Footer";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -62,6 +64,14 @@ function App() {
         {
           path: '/NewsArticleCreation',
           element: <NewsArticleCreation />
+        },
+        {
+          path: '/subscribtion',
+          element: <SubscriptionCardDisplay />
+        },
+        {
+          path: '/PaymentPage',
+          element: <PaymentPage />
         }
       ],
       errorElement: <PageNotFound />
@@ -74,7 +84,6 @@ function App() {
       path: '/Register',
       element: <Register />
     }
-    
   ])
 
 

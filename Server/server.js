@@ -9,6 +9,8 @@ const authRoutes = require("./Routes/signupRouter"); // Import your auth routes 
 const user = require("./Routes/user")
 const articleRoutes = require("./Routes/articlesRoute");
 const contactRoutes = require("./Routes/contactRouter");
+const paymentRoutes = require("./Routes/paymentRoute");
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -29,6 +31,11 @@ app.use(express.urlencoded({ extended: true }));
 // Register Routes
 app.use("/api/auth", authRoutes);  // Use authRoutes for handling the registration and login routes
 app.use("/api", contactRoutes);
+app.use("/api", paymentRoutes);
+
+app.post('/api/payments', (req, res) => {
+  res.json({ message: 'Payment endpoint hit' });
+});
 
 
 // Connect to MongoDB using connectDB function
