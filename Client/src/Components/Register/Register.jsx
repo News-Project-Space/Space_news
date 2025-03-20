@@ -85,7 +85,7 @@ const Register = () => {
       expires.setMinutes(expires.getMinutes() + 60);
       document.cookie = `token=${token};expires=${expires.toUTCString()};path=/;secure`;
 
-      setTimeout(() => navigate("/login"), 1500);
+      setTimeout(() => navigate("/"), 1500);
     } catch (error) {
       console.log(error);
       setError("An error occurred while registering. Please try again.");
