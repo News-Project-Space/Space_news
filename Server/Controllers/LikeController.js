@@ -1,4 +1,3 @@
-// controllers/LikeController.js
 const Like = require('../Models/LikesModel');
 const Article = require('../Models/articlesModel');
 

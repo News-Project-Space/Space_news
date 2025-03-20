@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User = require('../Models/userModel'); // استيراد النموذج من ملف userModel.js
+const jwt = require("jsonwebtoken");
+const User = require("../Models/userModel"); // استيراد النموذج من ملف userModel.js
 
 // Middleware للتحقق من التوكن
 const authMiddleware = (req, res, next) => {
@@ -7,7 +7,9 @@ const authMiddleware = (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      return res.status(401).json({ message: "No token, authorization denied" });
+      return res
+        .status(401)
+        .json({ message: "No token, authorization denied" });
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -16,11 +18,10 @@ const authMiddleware = (req, res, next) => {
       return res.status(401).json({ message: "Invalid token structure" });
     }
 
-    req.user = decoded;  
+    req.user = decoded;
     console.log("Authenticated User:", req.user);
 
-    next();  
-
+    next();
   } catch (error) {
     // إذا كان التوكن غير صالح
     if (error.name === "TokenExpiredError") {
@@ -30,7 +31,9 @@ const authMiddleware = (req, res, next) => {
       return res.status(401).json({ message: "Invalid token" });
     }
     // لأي أخطاء أخرى
-    return res.status(401).json({ message: "Authorization failed", error: error.message });
+    return res
+      .status(401)
+      .json({ message: "Authorization failed", error: error.message });
   }
 };
 

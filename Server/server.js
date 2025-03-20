@@ -17,57 +17,67 @@
   const newArticleRoutes = require("./Routes/newArticleRoute");
   const LikeRouter = require('./Routes/LikeRouter');
   const CommentRouter = require('./Routes/commentRoutes'); // استيراد CommentRouter
+  const reportRouter = require('./Routes/reportRouter');
+
+const paymentRoutes = require("./Routes/paymentRoute");
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(bodyParser.json());
+app.use(cookiesParser());
+app.use(
+  cors({
+    origin: "*", // Make sure this is the correct frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Register Routes
+app.use("/api/auth", authRoutes);
+app.use("/api", journalistRouter);
+app.use("/api/articles", articleRoutes);
+app.use("/api/articles", newArticleRoutes);
+app.use("/api/user", user);
+app.use("/api/admin", adminRouter);
+app.use("/api", contactRoutes);
+app.use("/api", paymentRoutes);
+app.use("/api/articles", articleRoutes);
+app.use('/api/articles', LikeRouter);
+app.use('/api/articles', CommentRouter); 
+app.use('/api/comments', reportRouter);
 
 
+app.post('/api/payments', (req, res) => {
+  res.json({ message: 'Payment endpoint hit' });
+});
 
-  const app = express();
-  const PORT = process.env.PORT || 5000;
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve static files from the uploads folder
+// Middleware
+app.use(bodyParser.json());
+app.use(cookiesParser());
+app.use(
+  cors({
+    origin: (_, callback) => {
+      callback(null, true);
+    },
+    credentials: true,
+  })
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-  // Middleware
-  app.use(bodyParser.json());
-  app.use(cookiesParser());
-  app.use(
-    cors({
-      origin: (_, callback) => {
-        callback(null, true);
-      },
-      credentials: true,
-    })
-  );
-  app.use(express.json()); 
-  app.use(express.urlencoded({ extended: true })); 
-
-
-
-
-  // Register Routes
-  app.use("/api/auth", authRoutes);  
-  app.use('/api', journalistRouter);
-  app.use("/api/articles", articleRoutes);
-  app.use("/api/articles", newArticleRoutes);
-  app.use("/api/user", user);
-  app.use("/api/admin", adminRouter);
-  app.use("/api", contactRoutes);
-  app.use('/api/articles', LikeRouter);
-  app.use('/api/articles', CommentRouter); 
+// Connect to MongoDB using connectDB function
+connectDB();
 
 
-  app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.get("/", (req, res) => {
+  res.send("🚀 API is running...");
+});
 
-
-
-
-  // Connect to MongoDB using connectDB function
-  connectDB();
-
-  // Routes
-
-
-
-
-  app.get("/", (req, res) => {
-    res.send("🚀 API is running...");
-  });
-
-  // Start Server
-  app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// Start Server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -1,1 +1,32 @@
 GET http://localhost:8000/api/user/details/67d57b7574c3651af76db56d
+
+#####
+PUT http://localhost:8000/api/user/update/67d48170a5bf5b832dd9844f
+Content-Type: application/json
+
+{
+    "fullName": "John",
+    "preferences": ["The a7a System", "Alien Life"]
+}
+
+#####
+PUT http://localhost:8000/api/user/update/67d48170a5bf5b832dd9844f
+Content-Type: application/json
+
+{
+  "fullName": "John Doe",
+  "email": "www@example.com"
+}
+
+####
+
+POST http://localhost:8000/api/user/favorites/67d6a257bd1a71723bfe3b69
+Content-Type: application/json
+
+{
+  "userId": "67d440a485fa180fd2dbc4e4"
+}
+
+####
+GET http://localhost:8000/api/user/favorites?userId=67d57b7574c3651af76db56d
+

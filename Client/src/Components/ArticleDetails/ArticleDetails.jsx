@@ -2,7 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "../helpers/dateHelper";
-import Cookies from "js-cookie"; // استيراد مكتبة js-cookie
+import Cookies from "js-cookie";
+import Swal from 'sweetalert2'; // Import SweetAlert2
+import {
+  FacebookShareButton,
+  WhatsappShareButton,
+  TwitterShareButton,
+  FacebookIcon,
+  WhatsappIcon,
+  TwitterIcon,
+} from "react-share";
+import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
   const { id } = useParams();
@@ -11,11 +21,11 @@ const ArticleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [commentText, setCommentText] = useState("");
-  const [userId, setUserId] = useState(null); // سيتم تعبئتها من التوكن
   const [hasLiked, setHasLiked] = useState(false);
-  const [comments, setComments] = useState([]); // حالة جديدة لتخزين التعليقات
+  const [comments, setComments] = useState([]);
+  const userId = useSelector((state) => state.user.userId);
 
-  // دالة لاستخراج userId من التوكن
+
   const getUserIdFromToken = () => {
     const token = Cookies.get("token");
     if (!token) return null;
@@ -24,18 +34,17 @@ const ArticleDetails = () => {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       return decodedToken._id;
     } catch (error) {
-      console.error("❌ خطأ في فك تشفير التوكن:", error);
+      console.error("❌ Error decoding token:", error);
       return null;
     }
   };
 
   useEffect(() => {
-    // استخراج userId من التوكن عند تحميل المكون
     const userIdFromToken = getUserIdFromToken();
     if (userIdFromToken) {
-      setUserId(userIdFromToken);
+      console.log("")
     } else {
-      console.error("❌ لم يتم العثور على userId في التوكن.");
+      console.error("❌ User ID not found in token.");
     }
 
     const fetchArticle = async () => {
@@ -45,10 +54,10 @@ const ArticleDetails = () => {
         );
         setArticle(response.data);
         fetchAuthor(response.data.authorId);
-        fetchComments(); // جلب التعليقات بعد جلب المقالة
+        fetchComments();
       } catch (error) {
         console.error("Error fetching article:", error);
-        setError(error.message || "حدث خطأ أثناء جلب البيانات");
+        setError(error.message || "An error occurred while fetching data.");
       } finally {
         setLoading(false);
       }
@@ -70,7 +79,7 @@ const ArticleDetails = () => {
         const response = await axios.get(
           `http://localhost:8000/api/articles/${id}/comments`
         );
-        setComments(response.data.comments); // تحديث حالة التعليقات
+        setComments(response.data.comments);
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
@@ -81,7 +90,7 @@ const ArticleDetails = () => {
 
   const handleLike = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -102,7 +111,7 @@ const ArticleDetails = () => {
 
   const handleUnlike = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -124,7 +133,7 @@ const ArticleDetails = () => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -133,17 +142,16 @@ const ArticleDetails = () => {
         `http://localhost:8000/api/articles/${id}/comment`,
         {
           userId,
-          content: commentText, // تأكد من أن الحقل اسمه "content"
+          content: commentText,
         }
       );
 
-      // تحديث حالة التعليقات لإضافة التعليق الجديد
       setComments((prevComments) => [
         ...prevComments,
-        response.data.comment, // استخدم التعليق الذي تم إرجاعه من الـbackend
+        response.data.comment,
       ]);
 
-      setCommentText(""); // مسح حقل التعليق بعد الإرسال
+      setCommentText("");
     } catch (error) {
       console.error("Error submitting comment:", error);
     }
@@ -151,28 +159,73 @@ const ArticleDetails = () => {
 
   const handleAddToBookmark = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
+      window.location.href = '/login';
       return;
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/articles/${id}/bookmark`,
-        {
-          userId,
-        }
-      );
+      const response = await axios.post(`http://localhost:8000/api/user/favorites/${id}`, {
+        userId: userId,
+      });
       if (response.data.success) {
-        alert("تمت إضافة المقالة إلى المفضلة بنجاح!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Added to Favorites!',
+          text: 'The article has been added to your favorites.',
+        });
       }
     } catch (error) {
       console.error("Error adding to bookmark:", error);
-      alert("فشل في إضافة المقالة إلى المفضلة.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Add',
+        text: 'Failed to add the article to favorites.',
+      });
     }
   };
 
+  const handleReportComment = async (commentId) => {
+    const { value: reason } = await Swal.fire({
+      title: 'Report Comment',
+      input: 'text',
+      inputLabel: 'Please enter the reason for reporting:',
+      inputPlaceholder: 'Enter the reason here...',
+      showCancelButton: true,
+      confirmButtonText: 'Report',
+      cancelButtonText: 'Cancel',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to enter a reason!';
+        }
+      },
+    });
+
+    if (reason) {
+      try {
+        await axios.post(`http://localhost:8000/api/comments/${commentId}/report`, {
+          userId,
+          reason,
+        });
+        Swal.fire({
+          icon: 'success',
+          title: 'Reported Successfully!',
+          text: 'Thank you for reporting this comment.',
+        });
+      } catch (error) {
+        console.error("Error reporting comment:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to Report',
+          text: 'An error occurred while reporting the comment.',
+        });
+      }
+    }
+  };
+
+
   if (loading) {
-    return <div className="text-center mt-8">جاري التحميل...</div>;
+    return <div className="text-center mt-8 text-[#23120B]">Loading...</div>;
   }
 
   if (error) {
@@ -180,112 +233,156 @@ const ArticleDetails = () => {
   }
 
   return (
-  <div className="container mx-auto p-4">
-  <div className="bg-[#F1F1F1] p-6 rounded-lg shadow-md">
-    <h2 className="text-2xl font-bold mb-4 text-[#23120B]">{article.title}</h2>
-    <h2 className="text-sm text-[#21209C]">Article Date: {formatDate(article.createdAt)}</h2>
-    <div className="mb-4">
-      {article.featuredImage && article.featuredImage.length > 0 && (
-        <img
-          src={
-            article.featuredImage?.length > 0
-              ? `http://localhost:8000${article.featuredImage[0]}`
-              : "/images/default-news.jpg"
-          }
-          alt={article.title}
-          className="w-full h-64 object-cover" // Fixed height for all article images
-        />
-      )}
-    </div>
-    <p className="text-[#23120B] mb-4">{article.content}</p>
-    <div className="flex items-center justify-between mb-4">
-      <span className="text-sm text-[#21209C]">
-        Category: {article.category}
-      </span>
-      <span className="text-sm text-[#21209C]">
-        Views: {article.viewsCount}
-      </span>
-    </div>
-    <div className="mb-4 text-center">
-      <h3 className="text-xl font-bold mb-4 text-[#23120B]">Published By</h3>
-      {author && (
-        <div className="flex flex-col items-center">
-          <img
-            src={`http://localhost:8000/${author.profileImage}`}
-            alt={author.fullName}
-            className="w-24 h-24 rounded-full mb-4"
-          />
-          <p className="text-sm text-[#21209C] mb-2 max-w-xl">{author.bio}</p>
-          <a
-            href={author.portfolio}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#21209C] hover:underline"
-          >
-            {author.portfolio}
-          </a>
+    <div className="container mx-auto p-6 max-w-7xl">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Article on the left side */}
+        <div className="md:col-span-2 bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden">
+          {/* Article Header */}
+          <div className="p-6 border-b border-gray-200">
+            <h2 className="text-3xl font-bold text-[#23120B] mb-3">{article.title}</h2>
+            <h2 className="text-sm text-[#21209C]">Article Date: {formatDate(article.createdAt)}</h2>
+          </div>
+
+          {/* Featured Image */}
+          <div className="p-6">
+            {article.featuredImage && article.featuredImage.length > 0 && (
+              <img
+                src={
+                  article.featuredImage?.length > 0
+                    ? `http://localhost:8000${article.featuredImage[0]}`
+                    : "/images/default-news.jpg"
+                }
+                alt={article.title}
+                className="w-full h-72 object-cover rounded-lg mb-6"
+              />
+            )}
+            <p className="text-[#23120B] leading-relaxed mb-6">
+              {article.content.split('\n').map((paragraph, index) => (
+                <span key={index}>
+                  {paragraph}
+                  <br /><br />
+                </span>
+              ))}
+            </p>
+          </div>
+
+          {/* Article Meta */}
+          <div className="px-6 pb-6 flex items-center justify-between">
+            <span className="text-sm text-[#21209C]">Category: {article.category}</span>
+            <span className="text-sm text-[#21209C]">Views: {article.viewsCount}</span>
+          </div>
+
+          {/* Social Share Buttons */}
+          <div className="p-6 border-t border-gray-200 flex justify-center gap-6">
+            <FacebookShareButton url={window.location.href} quote={article.title}>
+              <FacebookIcon size={40} round />
+            </FacebookShareButton>
+            <WhatsappShareButton url={window.location.href} title={article.title} separator=" - ">
+              <WhatsappIcon size={40} round />
+            </WhatsappShareButton>
+            <TwitterShareButton url={window.location.href} title={article.title}>
+              <TwitterIcon size={40} round />
+            </TwitterShareButton>
+          </div>
+
+          {/* Interaction Buttons */}
+          <div className="p-6 border-t border-gray-200 flex justify-center gap-4">
+            {hasLiked ? (
+              <button
+                onClick={handleUnlike}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+              >
+                Remove Like ({article.likesCount})
+              </button>
+            ) : (
+              <button
+                onClick={handleLike}
+                className="bg-[#21209C] text-white px-4 py-2 rounded-lg hover:bg-[#1a1a7e] transition"
+              >
+                Like ({article.likesCount})
+              </button>
+            )}
+            <button
+              onClick={handleAddToBookmark}
+              className="bg-[#FDB827] text-white px-4 py-2 rounded-lg hover:bg-[#e5a523] transition"
+            >
+              Add to Favorites
+            </button>
+          </div>
         </div>
-      )}
-    </div>
-    <div className="mb-4">
-      {hasLiked ? (
-        <button
-          onClick={handleUnlike}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg"
-        >
-          Remove Like ({article.likesCount})
-        </button>
-      ) : (
-        <button
-          onClick={handleLike}
-          className="bg-[#21209C] text-white px-4 py-2 rounded-lg"
-        >
-          Like ({article.likesCount})
-        </button>
-      )}
-      <button
-        onClick={handleAddToBookmark}
-        className="bg-[#FDB827] text-white px-4 py-2 rounded-lg ml-2"
-      >
-        Add to Favorites
-      </button>
-    </div>
-    <div className="mb-4">
-      <h3 className="text-xl font-bold mb-2 text-[#23120B]">Comments</h3>
-      <form onSubmit={handleCommentSubmit} className="mb-4">
-        <textarea
-          value={commentText}
-          onChange={(e) => setCommentText(e.target.value)}
-          placeholder="Add a comment..."
-          className="w-full p-2 border rounded-lg"
-          required
-        />
-        <button
-          type="submit"
-          className="bg-[#FDB827] text-white px-4 py-2 rounded-lg mt-2"
-        >
-          Submit
-        </button>
-      </form>
-      <div>
-        {comments.length > 0 ? (
-          comments.map((comment, index) => (
-            <div key={index} className="mb-2 p-2 border-b">
-              <p className="text-[#23120B]">
-                <strong>{comment.username}</strong>: {comment.content}
-              </p>
-              <p className="text-sm text-[#21209C]">
-                {comment.createdAt ? new Date(comment.createdAt).toLocaleString() : "Unknown date"}
-              </p>
+
+        {/* Author and Comments on the right side */}
+        <div className="md:col-span-1 h-fit sticky top-0 self-start">
+          {/* Author Section */}
+          <div className="bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden p-6 mb-8">
+            <h3 className="text-xl font-bold mb-4 text-[#23120B]">Published By</h3>
+            {author && (
+              <div className="flex flex-col items-center">
+                <img
+                  src={`http://localhost:8000/${author.profileImage}`}
+                  alt={author.fullName}
+                  className="w-20 h-20 rounded-full mb-4 object-cover"
+                />
+                <p className="text-sm text-[#21209C] mb-2 max-w-md">{author.bio}</p>
+                <a
+                  href={author.portfolio}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#21209C] hover:underline"
+                >
+                  {author.portfolio}
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Comments Section */}
+          <div className="bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden p-6">
+            <h3 className="text-xl font-bold mb-4 text-[#23120B]">Comments</h3>
+            <form onSubmit={handleCommentSubmit} className="mb-6">
+              <textarea
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Add a comment..."
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#21209C] mb-2"
+                rows="3"
+                required
+              />
+              <button
+                type="submit"
+                className="bg-[#FDB827] text-white px-4 py-2 rounded-lg hover:bg-[#e5a523] transition"
+              >
+                Submit
+              </button>
+            </form>
+            <div className="space-y-4">
+              {comments.length > 0 ? (
+                comments.map((comment, index) => (
+                  <div key={index} className="p-3 bg-white rounded-lg shadow-sm">
+                    <p className="text-[#23120B]">
+                      <strong>{comment.username}</strong>: {comment.content}
+                    </p>
+                    <p className="text-sm text-[#21209C]">
+                      {comment.createdAt
+                        ? new Date(comment.createdAt).toLocaleString()
+                        : "Unknown date"}
+                    </p>
+                    <button
+                      onClick={() => handleReportComment(comment._id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Report
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <p className="text-[#21209C]">No comments yet.</p>
+              )}
             </div>
-          ))
-        ) : (
-          <p className="text-[#21209C]">No comments yet.</p>
-        )}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
   );
 };
 

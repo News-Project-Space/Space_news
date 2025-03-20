@@ -50,8 +50,8 @@ exports.getComments = async (req, res) => {
       return res.status(404).json({ message: 'المقالة غير موجودة.' });
     }
 
-    // جلب جميع التعليقات المرتبطة بالمقالة
-    const comments = await Comment.find({ articleId })
+    // جلب جميع التعليقات المرتبطة بالمقالة والتي لم يتم حذفها بشكل ناعم
+    const comments = await Comment.find({ articleId, softDelete: false }) // فقط التعليقات غير المحذوفة
       .sort({ createdAt: -1 }); // ترتيب التعليقات من الأحدث إلى الأقدم
 
     res.status(200).json({ comments });

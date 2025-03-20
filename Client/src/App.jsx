@@ -12,12 +12,18 @@ import {
   Profile,
   Register,
   ToBeJournalist,
-  PageNotFound
+  PageNotFound,
+  SubscriptionCardDisplay,
+  PaymentPage,
 } from "./Components";
 import Footer from "./Components/Footer/Footer";
 
 // NEW IMPORTS:
+import AdminLayout from "./Components/AdminDashboard/AdminLayout";
 import AdminDashboard from "./Components/AdminDashboard/AdminDashboard";
+import AdminUsers from "./Components/AdminDashboard/AdminUsers";
+import ArticlesList from "./Components/AdminDashboard/ArticlesList";
+import AdminArticleDetails from "./Components/AdminDashboard/AdminArticleDetails";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AboutUs from "./Components/About/About";
 
@@ -25,7 +31,12 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Navbar />,
+      element: (
+        <>
+          <Navbar />
+          <Footer />
+        </>
+      ),
       children: [
         {
           index: true,
@@ -65,6 +76,14 @@ function App() {
           element: <Profile />,
         },
         {
+          path: "/subscribtion",
+          element: <SubscriptionCardDisplay />,
+        },
+        {
+          path: "/PaymentPage",
+          element: <PaymentPage />,
+        },
+        {
           path: "/NewsArticleCreation",
           element: <NewsArticleCreation />,
         },
@@ -85,9 +104,15 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedRoute requiredRole="admin">
-          <AdminDashboard />
+          <AdminLayout />
         </ProtectedRoute>
       ),
+      children: [
+        { index: true, element: <AdminDashboard /> },
+        { path: "articles", element: <ArticlesList /> },
+        { path: "articles/:id", element: <AdminArticleDetails /> }, // <--- This route
+        { path: "users", element: <AdminUsers /> },
+      ],
       errorElement: <PageNotFound />,
     },
     // ----------------------------------
@@ -96,7 +121,6 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-      <Footer />
     </>
   );
 }

@@ -11,3 +11,5 @@ export { default as Bookmark } from "./Bookmark/Bookmark.jsx";
 export { default as About } from "./About/About.jsx";
 export { default as Contact } from "./Contact/Contact.jsx";
 export { default as PageNotFound } from "./PageNotFound/PageNotFound.jsx";
+export { default as SubscriptionCardDisplay} from "./subscribtion/SubscriptionCardDisplay.jsx";
+export { default as PaymentPage} from "./subscribtion/PaymentPage.jsx";
