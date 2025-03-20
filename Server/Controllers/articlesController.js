@@ -67,7 +67,6 @@ exports.getAllArticles = async (req, res) => {
     const query = { status: "approved" };
 
     if (category) query.category = category;
-    if (author) query.author = author;
     if (search) query.title = { $regex: search, $options: "i" };
 
     const articles = await Article.find(query)
