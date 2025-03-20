@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 
 function InterestsSelector({ value, onChange, options }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef(null);
 
-  const filteredOptions = options.filter(option =>
+  const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -16,19 +16,19 @@ function InterestsSelector({ value, onChange, options }) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleInterest = (interestValue) => {
     const updatedInterests = value.includes(interestValue)
-      ? value.filter(item => item !== interestValue)
+      ? value.filter((item) => item !== interestValue)
       : [...value, interestValue];
     onChange(updatedInterests);
   };
 
   const removeInterest = (interestValue) => {
-    onChange(value.filter(item => item !== interestValue));
+    onChange(value.filter((item) => item !== interestValue));
   };
 
   return (
@@ -39,9 +39,12 @@ function InterestsSelector({ value, onChange, options }) {
       >
         {value.length > 0 ? (
           value.map((interest) => {
-            const option = options.find(opt => opt.value === interest);
+            const option = options.find((opt) => opt.value === interest);
             return (
-              <div key={interest} className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-sm flex items-center">
+              <div
+                key={interest}
+                className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-sm flex items-center"
+              >
                 {option?.label || interest}
                 <button
                   onClick={(e) => {
@@ -78,20 +81,24 @@ function InterestsSelector({ value, onChange, options }) {
               filteredOptions.map((option) => (
                 <div
                   key={option.id}
-                  className={`p-2 hover:bg-gray-100 cursor-pointer flex items-center ${value.includes(option.value) ? 'bg-blue-50' : ''}`}
+                  className={`p-2 hover:bg-gray-100 cursor-pointer flex items-center ${
+                    value.includes(option.value) ? "bg-blue-50" : ""
+                  }`}
                   onClick={() => toggleInterest(option.value)}
                 >
                   <input
                     type="checkbox"
                     checked={value.includes(option.value)}
-                    onChange={() => { }}
+                    onChange={() => {}}
                     className="mr-2"
                   />
                   {option.label}
                 </div>
               ))
             ) : (
-              <div className="p-3 text-center text-gray-500">No matching interests found</div>
+              <div className="p-3 text-center text-gray-500">
+                No matching interests found
+              </div>
             )}
           </div>
 
