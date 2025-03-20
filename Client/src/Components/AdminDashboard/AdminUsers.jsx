@@ -131,14 +131,14 @@ const AdminUsers = () => {
 
   // Chart data for user distribution
   const chartData = [
-    { category: "Admins", count: admins.length, color: "#3B82F6" },
+    { category: "Admins", count: admins.length, color: "#23120B" },
     {
       category: "Journalists",
       count: approvedJournalists.length,
-      color: "#10B981",
+      color: "#21209C",
     },
-    { category: "Pending", count: pendingJournalists.length, color: "#F59E0B" },
-    { category: "Readers", count: readers.length, color: "#8B5CF6" },
+    { category: "Pending", count: pendingJournalists.length, color: "#FDB827" },
+    { category: "Readers", count: readers.length, color: "#F1F1F1" },
   ];
 
   // Calculate total users for percentage
@@ -431,8 +431,8 @@ const AdminUsers = () => {
               onClick={() => setActiveTab("all")}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 activeTab === "all"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-[#21209C] text-[#F1F1F1]"
+                  : "text-[#23120B] hover:bg-[#F1F1F1]"
               }`}
             >
               All Users
@@ -441,8 +441,8 @@ const AdminUsers = () => {
               onClick={() => setActiveTab("admin")}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 activeTab === "admin"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-[#21209C] text-[#F1F1F1]"
+                  : "text-[#23120B] hover:bg-[#F1F1F1]"
               }`}
             >
               Admins
@@ -451,8 +451,8 @@ const AdminUsers = () => {
               onClick={() => setActiveTab("journalist")}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 activeTab === "journalist"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-[#21209C] text-[#F1F1F1]"
+                  : "text-[#23120B] hover:bg-[#F1F1F1]"
               }`}
             >
               Journalists
@@ -461,13 +461,13 @@ const AdminUsers = () => {
               onClick={() => setActiveTab("pending")}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 activeTab === "pending"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-[#21209C] text-[#F1F1F1]"
+                  : "text-[#23120B] hover:bg-[#F1F1F1]"
               } relative`}
             >
               Pending
               {pendingJournalists.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-[#FDB827] text-[#23120B] text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {pendingJournalists.length}
                 </span>
               )}
@@ -476,8 +476,8 @@ const AdminUsers = () => {
               onClick={() => setActiveTab("reader")}
               className={`px-4 py-2 text-sm font-medium rounded-md ${
                 activeTab === "reader"
-                  ? "bg-blue-600 text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-[#21209C] text-[#F1F1F1]"
+                  : "text-[#23120B] hover:bg-[#F1F1F1]"
               }`}
             >
               Readers
@@ -543,19 +543,19 @@ const AdminUsers = () => {
                     <Line
                       type="monotone"
                       dataKey="readers"
-                      stroke="#8B5CF6"
+                      stroke="#FDB827"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="journalists"
-                      stroke="#10B981"
+                      stroke="#21209C"
                       strokeWidth={2}
                     />
                     <Line
                       type="monotone"
                       dataKey="admins"
-                      stroke="#3B82F6"
+                      stroke="#23120B"
                       strokeWidth={2}
                     />
                   </LineChart>
@@ -563,7 +563,7 @@ const AdminUsers = () => {
               </div>
 
               {/* Summary Stats */}
-              <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-xl shadow text-white lg:col-span-3">
+              <div className="bg-gradient-to-br from-[#23120B] to-[#21209C] p-6 rounded-xl shadow text-[#F1F1F1] lg:col-span-3">
                 <h2 className="text-xl font-semibold mb-6 flex items-center">
                   <UserCheck className="w-5 h-5 mr-2" />
                   User Summary

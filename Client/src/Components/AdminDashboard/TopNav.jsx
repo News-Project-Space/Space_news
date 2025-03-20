@@ -9,11 +9,11 @@ const TopNav = () => {
   };
 
   return (
-    <header className="flex items-center justify-between px-6 py-3 bg-white shadow-sm">
+    <header className="flex items-center justify-between px-6 py-3 bg-[#21209C] text-[#F1F1F1] shadow-sm">
       <h1 className="text-xl font-semibold">Admin Dashboard</h1>
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+        className="bg-[#FDB827] text-[#23120B] px-4 py-2 rounded hover:bg-[#FDB827]/80 transition duration-300 font-medium"
       >
         Logout
       </button>

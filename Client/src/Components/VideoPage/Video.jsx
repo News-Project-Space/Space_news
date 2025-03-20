@@ -13,7 +13,7 @@ const Video = () => {
     views: "1.2M",
     date: "2 months ago",
     thumbnail: "https://images.unsplash.com/photo-1614642264762-d0a3b8bf3700?q=80&w=1000",
-    videoId: "wV-kq4P9TNw" // The Universe: Cosmic Horizons | Space Documentary
+    videoId: "3afEX8a2jPg" // The Universe: Cosmic Horizons | Space Documentary
   };
 
   const gridVideos = [
@@ -24,7 +24,7 @@ const Video = () => {
       date: "2 months ago",
       views: "876K",
       thumbnail: "https://images.unsplash.com/photo-1534841090574-cba2d662b62e?q=80&w=1000",
-      videoId: "J3xLuZNKhlY" // What is Dark Matter? | PBS Space Time
+      videoId: "i5ucytz2C7I" // What is Dark Matter? | PBS Space Time
     },
     {
       category: "SCIENCE",
@@ -33,7 +33,7 @@ const Video = () => {
       date: "2 months ago",
       views: "543K",
       thumbnail: "https://images.unsplash.com/photo-1545156521-77bd85671d30?q=80&w=1000",
-      videoId: "NO3hNUU3t3w" // How Do We Find Exoplanets? | SciShow Space
+      videoId: "yv4DbU1CWAY" // How Do We Find Exoplanets? | SciShow Space
     },
     {
       category: "SPACE SPORTS",
@@ -51,16 +51,16 @@ const Video = () => {
       date: "2 months ago",
       views: "754K",
       thumbnail: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?q=80&w=1000",
-      videoId: "Gp14qXKuvU4" // James Webb vs. Hubble Telescope | NASA
+      videoId: "1C_zuHf6lP4" // James Webb vs. Hubble Telescope | NASA
     },
     {
       category: "EXPLORATION",
-      title: "Mars Mission",
+      title: "SpaceX Makes History | MARS",
       author: "Jane Doe",
       date: "2 months ago",
       views: "432K",
       thumbnail: "https://images.unsplash.com/photo-1614314107768-6018061b5b72?q=80&w=1000",
-      videoId: "qz5whYgZNso" // NASA's Mars Rover Mission Explained
+      videoId: "brE21SBO2j8" // NASA's Mars Rover Mission Explained
     },
     {
       category: "FOOD SCIENCE",
@@ -69,7 +69,7 @@ const Video = () => {
       date: "2 months ago",
       views: "654K",
       thumbnail: "https://images.pexels.com/photos/2150/sky-space-dark-galaxy.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-      videoId: "a4tFXz2K7qc" // How Astronauts Eat in Space | NASA
+      videoId: "Ilifg26TZrI" // How Astronauts Eat in Space | NASA
     }
   ];
 
@@ -161,14 +161,6 @@ const Video = () => {
                 <div className="absolute bottom-0 left-0 p-4">
                   <span className="inline-block px-2 py-1 text-xs font-semibold text-white bg-gray-800 bg-opacity-75 rounded">{video.category}</span>
                   <h3 className="mt-2 text-xl font-bold text-white">{video.title}</h3>
-                  <p className="text-sm text-gray-300">By {video.author} • {video.date}</p>
-                  <div className="flex items-center mt-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                    <span className="ml-1 text-xs text-gray-300">{video.views}</span>
-                  </div>
                 </div>
               </div>
             </div>
