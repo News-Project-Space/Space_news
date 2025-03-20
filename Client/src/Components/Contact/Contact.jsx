@@ -154,7 +154,7 @@ const Contact = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#21209C]"
+                    className="w-full px-64  py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#21209C]"
                     required
                   />
                 </div>

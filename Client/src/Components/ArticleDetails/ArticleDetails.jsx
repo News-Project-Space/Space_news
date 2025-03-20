@@ -12,6 +12,7 @@ import {
   WhatsappIcon,
   TwitterIcon,
 } from "react-share";
+import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
   const { id } = useParams();
@@ -20,9 +21,10 @@ const ArticleDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [commentText, setCommentText] = useState("");
-  const [userId, setUserId] = useState(null);
   const [hasLiked, setHasLiked] = useState(false);
   const [comments, setComments] = useState([]);
+  const userId = useSelector((state) => state.user.userId);
+
 
   const getUserIdFromToken = () => {
     const token = Cookies.get("token");
@@ -40,7 +42,7 @@ const ArticleDetails = () => {
   useEffect(() => {
     const userIdFromToken = getUserIdFromToken();
     if (userIdFromToken) {
-      setUserId(userIdFromToken);
+      console.log("")
     } else {
       console.error("❌ User ID not found in token.");
     }
@@ -158,16 +160,14 @@ const ArticleDetails = () => {
   const handleAddToBookmark = async () => {
     if (!userId) {
       console.error("❌ User ID not found.");
+      window.location.href = '/login';
       return;
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:8000/api/articles/${id}/bookmark`,
-        {
-          userId,
-        }
-      );
+      const response = await axios.post(`http://localhost:8000/api/user/favorites/${id}`, {
+        userId: userId,
+      });
       if (response.data.success) {
         Swal.fire({
           icon: 'success',
@@ -222,6 +222,7 @@ const ArticleDetails = () => {
       }
     }
   };
+
 
   if (loading) {
     return <div className="text-center mt-8 text-[#23120B]">Loading...</div>;

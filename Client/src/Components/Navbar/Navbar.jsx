@@ -88,6 +88,24 @@ import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import logo from "../images/logo.png";
 import { useSelector } from "react-redux";
 
+const useUserData = (userId) => {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    if (userId) {
+      fetch(`http://localhost:8000/api/user/details/${userId}`)
+        .then((response) => response.json())
+        .then((data) => setUserData(data))
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+          setUserData(null);
+        });
+    }
+  }, [userId]);
+
+  return userData;
+};
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

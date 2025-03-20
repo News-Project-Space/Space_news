@@ -1,9 +1,10 @@
 // src/Components/AdminDashboard/AdminLayout.jsx
 import React from "react";
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import TopNav from "./TopNav";
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
@@ -14,8 +15,10 @@ const AdminLayout = ({ children }) => {
         {/* Top Navigation */}
         <TopNav />
 
-        {/* Main Content Scrollable */}
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        {/* Nested Admin Pages Render Here */}
+        <main className="flex-1 overflow-y-auto p-6">
+          <Outlet />
+        </main>
       </div>
     </div>
   );
