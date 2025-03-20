@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "../helpers/dateHelper";
 import Cookies from "js-cookie";
+import Swal from 'sweetalert2'; // Import SweetAlert2
 import {
   FacebookShareButton,
   WhatsappShareButton,
@@ -31,7 +32,7 @@ const ArticleDetails = () => {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       return decodedToken._id;
     } catch (error) {
-      console.error("❌ خطأ في فك تشفير التوكن:", error);
+      console.error("❌ Error decoding token:", error);
       return null;
     }
   };
@@ -41,7 +42,7 @@ const ArticleDetails = () => {
     if (userIdFromToken) {
       setUserId(userIdFromToken);
     } else {
-      console.error("❌ لم يتم العثور على userId في التوكن.");
+      console.error("❌ User ID not found in token.");
     }
 
     const fetchArticle = async () => {
@@ -54,7 +55,7 @@ const ArticleDetails = () => {
         fetchComments();
       } catch (error) {
         console.error("Error fetching article:", error);
-        setError(error.message || "حدث خطأ أثناء جلب البيانات");
+        setError(error.message || "An error occurred while fetching data.");
       } finally {
         setLoading(false);
       }
@@ -87,7 +88,7 @@ const ArticleDetails = () => {
 
   const handleLike = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -108,7 +109,7 @@ const ArticleDetails = () => {
 
   const handleUnlike = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -130,7 +131,7 @@ const ArticleDetails = () => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -156,7 +157,7 @@ const ArticleDetails = () => {
 
   const handleAddToBookmark = async () => {
     if (!userId) {
-      console.error("❌ لم يتم العثور على userId.");
+      console.error("❌ User ID not found.");
       return;
     }
 
@@ -168,16 +169,62 @@ const ArticleDetails = () => {
         }
       );
       if (response.data.success) {
-        alert("تمت إضافة المقالة إلى المفضلة بنجاح!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Added to Favorites!',
+          text: 'The article has been added to your favorites.',
+        });
       }
     } catch (error) {
       console.error("Error adding to bookmark:", error);
-      alert("فشل في إضافة المقالة إلى المفضلة.");
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Add',
+        text: 'Failed to add the article to favorites.',
+      });
+    }
+  };
+
+  const handleReportComment = async (commentId) => {
+    const { value: reason } = await Swal.fire({
+      title: 'Report Comment',
+      input: 'text',
+      inputLabel: 'Please enter the reason for reporting:',
+      inputPlaceholder: 'Enter the reason here...',
+      showCancelButton: true,
+      confirmButtonText: 'Report',
+      cancelButtonText: 'Cancel',
+      inputValidator: (value) => {
+        if (!value) {
+          return 'You need to enter a reason!';
+        }
+      },
+    });
+
+    if (reason) {
+      try {
+        await axios.post(`http://localhost:8000/api/comments/${commentId}/report`, {
+          userId,
+          reason,
+        });
+        Swal.fire({
+          icon: 'success',
+          title: 'Reported Successfully!',
+          text: 'Thank you for reporting this comment.',
+        });
+      } catch (error) {
+        console.error("Error reporting comment:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to Report',
+          text: 'An error occurred while reporting the comment.',
+        });
+      }
     }
   };
 
   if (loading) {
-    return <div className="text-center mt-8 text-[#23120B]">جاري التحميل...</div>;
+    return <div className="text-center mt-8 text-[#23120B]">Loading...</div>;
   }
 
   if (error) {
@@ -187,7 +234,7 @@ const ArticleDetails = () => {
   return (
     <div className="container mx-auto p-6 max-w-7xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* المقال على الجانب الأيسر */}
+        {/* Article on the left side */}
         <div className="md:col-span-2 bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden">
           {/* Article Header */}
           <div className="p-6 border-b border-gray-200">
@@ -263,7 +310,7 @@ const ArticleDetails = () => {
           </div>
         </div>
 
-        {/* معلومات الناشر والتعليقات على الجانب الأيمن */}
+        {/* Author and Comments on the right side */}
         <div className="md:col-span-1 h-fit sticky top-0 self-start">
           {/* Author Section */}
           <div className="bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden p-6 mb-8">
@@ -319,6 +366,12 @@ const ArticleDetails = () => {
                         ? new Date(comment.createdAt).toLocaleString()
                         : "Unknown date"}
                     </p>
+                    <button
+                      onClick={() => handleReportComment(comment._id)}
+                      className="text-red-500 hover:text-red-700"
+                    >
+                      Report
+                    </button>
                   </div>
                 ))
               ) : (
@@ -333,4 +386,3 @@ const ArticleDetails = () => {
 };
 
 export default ArticleDetails;
-

@@ -17,6 +17,7 @@
   const newArticleRoutes = require("./Routes/newArticleRoute");
   const LikeRouter = require('./Routes/LikeRouter');
   const CommentRouter = require('./Routes/commentRoutes'); // استيراد CommentRouter
+  const reportRouter = require('./Routes/reportRouter');
 
 
 
@@ -50,6 +51,9 @@
   app.use("/api", contactRoutes);
   app.use('/api/articles', LikeRouter);
   app.use('/api/articles', CommentRouter); 
+  // app.use('/api/reports', reportRouter);
+  app.use('/api/comments', reportRouter);
+
 
 
   app.use("/uploads", express.static(path.join(__dirname, "uploads")));
