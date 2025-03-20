@@ -26,6 +26,7 @@ import ArticlesList from "./Components/AdminDashboard/ArticlesList";
 import AdminArticleDetails from "./Components/AdminDashboard/AdminArticleDetails";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import AboutUs from "./Components/About/About";
+import Video from "./Components/VideoPage/Video";
 
 function App() {
   const router = createBrowserRouter([
@@ -86,6 +87,10 @@ function App() {
         {
           path: "/NewsArticleCreation",
           element: <NewsArticleCreation />,
+        },
+        {
+          path: "/videos",
+          element: <Video/>,
         },
       ],
       errorElement: <PageNotFound />,
