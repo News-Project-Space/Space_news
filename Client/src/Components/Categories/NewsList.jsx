@@ -174,6 +174,7 @@ const NewsList = () => {
             src={article.featuredImage?.length > 0 ? `http://localhost:8000${article.featuredImage[0]}` : "/images/default-news.jpg"}
             alt={article.title}
             className="w-full h-full object-cover"
+            loading="lazy"
           />
           {/* Date badge */}
           {/* Category label */}

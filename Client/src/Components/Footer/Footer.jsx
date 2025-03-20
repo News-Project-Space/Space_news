@@ -20,19 +20,6 @@ const Footer = () => {
               Delivering the latest space news, discoveries, and exploration updates in real time.
             </p>
             
-            <div className="mt-6">
-              <h3 className="text-sm font-semibold uppercase tracking-wider mb-3 text-[#F1F1F1]">Subscribe to Updates</h3>
-              <div className="flex">
-                <input 
-                  type="email" 
-                  placeholder="Your email" 
-                  className="bg-[#23120B]/80 text-sm rounded-l-md px-4 py-2 flex-grow text-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#FDB827]"
-                />
-                <button className="bg-[#FDB827] hover:bg-[#FDB827]/80 text-[#23120B] text-sm font-medium px-4 py-2 rounded-r-md transition duration-300">
-                  Subscribe
-                </button>
-              </div>
-            </div>
           </div>
           
           {/* Menu Columns */}

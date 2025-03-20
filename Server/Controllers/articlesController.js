@@ -42,7 +42,7 @@ exports.viewArticle = async (req, res) => {
 // ✅ Get All Approved Articles (Pagination & Sorting)
 exports.getAllArticles = async (req, res) => {
   try {
-    let { page = 1, limit = 10, sort = "-createdAt", category, author, search } = req.query;
+    let { page = 1, limit = 10, sort = "-createdAt", category,  search } = req.query;
     page = parseInt(page);
     limit = parseInt(limit);
 
@@ -50,7 +50,6 @@ exports.getAllArticles = async (req, res) => {
     const query = { status: "approved" };
 
     if (category) query.category = category;
-    if (author) query.author = author;
     if (search) query.title = { $regex: search, $options: "i" };
 
     const articles = await Article.find(query)
