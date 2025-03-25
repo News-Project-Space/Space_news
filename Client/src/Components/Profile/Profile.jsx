@@ -354,19 +354,19 @@
 
 // export default Profile;
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import ProfileSidebar from './ProfileSidebar';
-import UserDetails from './UserDetails';
-import SavedArticles from './SavedArticles';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import ProfileSidebar from "./ProfileSidebar";
+import UserDetails from "./UserDetails";
+import SavedArticles from "./SavedArticles";
 
 function Profile() {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [activeTab, setActiveTab] = useState('user-details');
+  const [activeTab, setActiveTab] = useState("user-details");
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState('');
+  const [editedName, setEditedName] = useState("");
   const [editedPreferences, setEditedPreferences] = useState([]);
 
   useEffect(() => {
@@ -374,13 +374,13 @@ function Profile() {
       fetch(`http://localhost:8000/api/user/details/${id}`)
         .then((response) => response.json())
         .then((data) => setUserData(data))
-        .catch((error) => console.error('Error fetching user data:', error));
+        .catch((error) => console.error("Error fetching user data:", error));
     }
   }, [id]);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/login');
+    localStorage.removeItem("token");
+    navigate("/login");
     window.location.reload();
   };
 
@@ -394,7 +394,7 @@ function Profile() {
 
       <div className="flex-1 p-8 overflow-auto">
         <div className="max-w-4xl mx-auto">
-          {activeTab === 'user-details' && userData && (
+          {activeTab === "user-details" && userData && (
             <UserDetails
               userData={userData}
               setUserData={setUserData}
@@ -408,9 +408,7 @@ function Profile() {
             />
           )}
 
-          {activeTab === 'saved-articles' && (
-            <SavedArticles />
-          )}
+          {activeTab === "saved-articles" && <SavedArticles />}
         </div>
       </div>
     </div>
@@ -418,4 +416,3 @@ function Profile() {
 }
 
 export default Profile;
-

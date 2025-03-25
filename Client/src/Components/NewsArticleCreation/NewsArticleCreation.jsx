@@ -117,7 +117,7 @@ const NewsArticleCreation = () => {
   return (
     <div className="w-full max-w-3xl mx-auto px-4 pt-10 mb-10">
       <div className="w-full p-6 bg-white shadow-lg rounded-lg border-t-4 border-t-[#FDB827]">
-        <h2 className="text-3xl font-bold text-center mb-6 text-[#FDB827]">
+        <h2 className="text-3xl font-bold text-center mb-6 text-black">
           Create a New Article
         </h2>
 
@@ -135,7 +135,7 @@ const NewsArticleCreation = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 mb-2 font-medium">Title</label>
+              <label className="block text-black mb-2 font-medium">Title</label>
               <input
                 type="text"
                 name="title"
@@ -148,9 +148,9 @@ const NewsArticleCreation = () => {
             </div>
             <div>
               {/* Category Filter */}
-              <label className="block text-gray-700 mb-2 mt-1 font-medium">Category</label>
+              <label className="block text-black mb-2 mt-1 font-medium">Category</label>
           <select
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FDB827] focus:border-transparent px-4 py-2 rounded text-gray-700"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#FDB827] focus:border-transparent px-4 py-2 rounded text-black"
             value={categoryF}
             onChange={(e) => setCategoryF(e.target.value)}
           >
@@ -163,7 +163,7 @@ const NewsArticleCreation = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-2 font-medium">Content</label>
+            <label className="block text-black mb-2 font-medium">Content</label>
             <textarea
               name="content"
               placeholder="Write your article content here..."
@@ -176,7 +176,7 @@ const NewsArticleCreation = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 mb-2 font-medium">Tags</label>
+              <label className="block text-black mb-2 font-medium">Tags</label>
               <input
                 type="text"
                 name="tags"
@@ -187,7 +187,7 @@ const NewsArticleCreation = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 mb-2 font-medium">
+              <label className="block text-black mb-2 font-medium">
                 Featured Video URL
               </label>
               <input
@@ -202,7 +202,7 @@ const NewsArticleCreation = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-2 font-medium">
+            <label className="block text-black mb-2 font-medium">
               Featured Images (Multiple)
             </label>
             <input

@@ -64,9 +64,9 @@ const ArticlesList = () => {
       counts[article.status]++;
     });
     return [
-      { name: "Approved", value: counts.approved, color: "#10B981" },
-      { name: "Pending", value: counts.pending, color: "#F59E0B" },
-      { name: "Rejected", value: counts.rejected, color: "#EF4444" },
+      { name: "Approved", value: counts.approved, color: "#23120B" },
+      { name: "Pending", value: counts.pending, color: "#21209C" },
+      { name: "Rejected", value: counts.rejected, color: "#FDB827" },
     ];
   };
 
@@ -177,19 +177,19 @@ const ArticlesList = () => {
                 <Bar
                   dataKey="approved"
                   name="Approved"
-                  fill="#10B981"
+                  fill="#23120B"
                   stackId="stack"
                 />
                 <Bar
                   dataKey="pending"
                   name="Pending"
-                  fill="#F59E0B"
+                  fill="#21209C"
                   stackId="stack"
                 />
                 <Bar
                   dataKey="rejected"
                   name="Rejected"
-                  fill="#EF4444"
+                  fill="#FDB827"
                   stackId="stack"
                 />
               </BarChart>
