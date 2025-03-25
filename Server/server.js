@@ -48,7 +48,8 @@ app.use("/api", contactRoutes);
 app.use("/api", paymentRoutes);
 app.use("/api/articles", articleRoutes);
 app.use('/api/articles', LikeRouter);
-app.use('/api/articles', CommentRouter); 
+app.use('/api/articles', CommentRouter);
+app.use('/api/comments', CommentRouter);
 app.use('/api/comments', reportRouter);
 
 

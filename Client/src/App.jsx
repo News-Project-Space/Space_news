@@ -76,13 +76,13 @@ function App() {
           path: "/Profile/:id",
           element: <Profile />,
         },
-        {
-          path: "/subscribtion",
-          element: <SubscriptionCardDisplay />,
+        {    
+          path: '/subscribtion',
+          element: <SubscriptionCardDisplay />
         },
         {
-          path: "/PaymentPage",
-          element: <PaymentPage />,
+          path: '/PaymentPage',
+          element: <PaymentPage />
         },
         {
           path: "/NewsArticleCreation",

@@ -3,10 +3,8 @@ const CommentController = require('../Controllers/commentController');
 
 const router = express.Router();
 
-// إضافة تعليق جديد
 router.post('/:articleId/comment', CommentController.addComment);
-
-// عرض جميع التعليقات لمقال معين
 router.get('/:articleId/comments', CommentController.getComments);
+router.put('/:commentId', CommentController.updateComment); // مسار جديد لتعديل التعليق
 
 module.exports = router;

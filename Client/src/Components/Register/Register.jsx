@@ -93,12 +93,16 @@ const Register = () => {
       dispatch(setUserId(result.user.id));
       setSuccess("Registration successful! Redirecting to home page...");
 
+      setSuccess('Registration successful! Redirecting to home page...');
+      
       const token = result.token;
       const expires = new Date();
       expires.setMinutes(expires.getMinutes() + 60);
       document.cookie = `token=${token};expires=${expires.toUTCString()};path=/;secure`;
 
       // Redirect after a short delay
+      setTimeout(() => navigate("/login"), 1500);
+
       setTimeout(() => navigate("/login"), 1500);
     } catch (error) {
       console.log(error);

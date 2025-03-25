@@ -3,16 +3,14 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { formatDate } from "../helpers/dateHelper";
 import Cookies from "js-cookie";
-import Swal from 'sweetalert2'; // Import SweetAlert2
+import Swal from 'sweetalert2';
+import { useSelector } from "react-redux";
+import { FaFacebookF, FaXTwitter, FaWhatsapp } from "react-icons/fa6";
 import {
   FacebookShareButton,
   WhatsappShareButton,
   TwitterShareButton,
-  FacebookIcon,
-  WhatsappIcon,
-  TwitterIcon,
 } from "react-share";
-import { useSelector } from "react-redux";
 
 const ArticleDetails = () => {
   const { id } = useParams();
@@ -23,8 +21,9 @@ const ArticleDetails = () => {
   const [commentText, setCommentText] = useState("");
   const [hasLiked, setHasLiked] = useState(false);
   const [comments, setComments] = useState([]);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedCommentText, setEditedCommentText] = useState("");
   const userId = useSelector((state) => state.user.userId);
-
 
   const getUserIdFromToken = () => {
     const token = Cookies.get("token");
@@ -41,9 +40,7 @@ const ArticleDetails = () => {
 
   useEffect(() => {
     const userIdFromToken = getUserIdFromToken();
-    if (userIdFromToken) {
-      console.log("")
-    } else {
+    if (!userIdFromToken) {
       console.error("❌ User ID not found in token.");
     }
 
@@ -185,7 +182,16 @@ const ArticleDetails = () => {
     }
   };
 
-  const handleReportComment = async (commentId) => {
+  const handleReportComment = async (commentId, commentUserId) => {
+    if (commentUserId === userId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Cannot Report',
+        text: 'You cannot report your own comment.',
+      });
+      return;
+    }
+
     const { value: reason } = await Swal.fire({
       title: 'Report Comment',
       input: 'text',
@@ -223,6 +229,47 @@ const ArticleDetails = () => {
     }
   };
 
+  const handleEditComment = (comment) => {
+    setEditingCommentId(comment._id);
+    setEditedCommentText(comment.content);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCommentId(null);
+    setEditedCommentText("");
+  };
+
+  const handleUpdateComment = async (commentId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:8000/api/comments/${commentId}`, // تم تعديل المسار هنا
+        {
+          content: editedCommentText,
+          userId
+        }
+      );
+  
+      setComments(comments.map(comment => 
+        comment._id === commentId ? { ...comment, content: editedCommentText } : comment
+      ));
+  
+      setEditingCommentId(null);
+      setEditedCommentText("");
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Comment Updated!',
+        text: 'Your comment has been updated successfully.',
+      });
+    } catch (error) {
+      console.error("Error updating comment:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Update',
+        text: 'An error occurred while updating the comment.',
+      });
+    }
+  };
 
   if (loading) {
     return <div className="text-center mt-8 text-[#23120B]">Loading...</div>;
@@ -235,15 +282,12 @@ const ArticleDetails = () => {
   return (
     <div className="container mx-auto p-6 max-w-7xl">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Article on the left side */}
         <div className="md:col-span-2 bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden">
-          {/* Article Header */}
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-3xl font-bold text-[#23120B] mb-3">{article.title}</h2>
             <h2 className="text-sm text-[#21209C]">Article Date: {formatDate(article.createdAt)}</h2>
           </div>
 
-          {/* Featured Image */}
           <div className="p-6">
             {article.featuredImage && article.featuredImage.length > 0 && (
               <img
@@ -266,26 +310,31 @@ const ArticleDetails = () => {
             </p>
           </div>
 
-          {/* Article Meta */}
           <div className="px-6 pb-6 flex items-center justify-between">
             <span className="text-sm text-[#21209C]">Category: {article.category}</span>
             <span className="text-sm text-[#21209C]">Views: {article.viewsCount}</span>
           </div>
 
-          {/* Social Share Buttons */}
-          <div className="p-6 border-t border-gray-200 flex justify-center gap-6">
-            <FacebookShareButton url={window.location.href} quote={article.title}>
-              <FacebookIcon size={40} round />
-            </FacebookShareButton>
-            <WhatsappShareButton url={window.location.href} title={article.title} separator=" - ">
-              <WhatsappIcon size={40} round />
-            </WhatsappShareButton>
-            <TwitterShareButton url={window.location.href} title={article.title}>
-              <TwitterIcon size={40} round />
-            </TwitterShareButton>
-          </div>
+          <div className="p-6 border-t border-gray-200 flex justify-center gap-4">
+  <FacebookShareButton url={window.location.href} quote={article.title}>
+    <div className="bg-[#23120B] hover:bg-[#FDB827] w-10 h-10 flex items-center justify-center rounded-full text-[#F1F1F1] hover:text-[#23120B] transition duration-300">
+      <FaFacebookF className="text-lg" />
+    </div>
+  </FacebookShareButton>
+  
+  <WhatsappShareButton url={window.location.href} title={article.title}>
+    <div className="bg-[#23120B] hover:bg-[#FDB827] w-10 h-10 flex items-center justify-center rounded-full text-[#F1F1F1] hover:text-[#23120B] transition duration-300">
+      <FaWhatsapp className="text-lg" />
+    </div>
+  </WhatsappShareButton>
+  
+  <TwitterShareButton url={window.location.href} title={article.title}>
+    <div className="bg-[#23120B] hover:bg-[#FDB827] w-10 h-10 flex items-center justify-center rounded-full text-[#F1F1F1] hover:text-[#23120B] transition duration-300">
+      <FaXTwitter className="text-lg" />
+    </div>
+  </TwitterShareButton>
+</div>
 
-          {/* Interaction Buttons */}
           <div className="p-6 border-t border-gray-200 flex justify-center gap-4">
             {hasLiked ? (
               <button
@@ -311,9 +360,7 @@ const ArticleDetails = () => {
           </div>
         </div>
 
-        {/* Author and Comments on the right side */}
         <div className="md:col-span-1 h-fit sticky top-0 self-start">
-          {/* Author Section */}
           <div className="bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden p-6 mb-8">
             <h3 className="text-xl font-bold mb-4 text-[#23120B]">Published By</h3>
             {author && (
@@ -336,7 +383,6 @@ const ArticleDetails = () => {
             )}
           </div>
 
-          {/* Comments Section */}
           <div className="bg-[#F1F1F1] rounded-lg shadow-lg overflow-hidden p-6">
             <h3 className="text-xl font-bold mb-4 text-[#23120B]">Comments</h3>
             <form onSubmit={handleCommentSubmit} className="mb-6">
@@ -357,22 +403,61 @@ const ArticleDetails = () => {
             </form>
             <div className="space-y-4">
               {comments.length > 0 ? (
-                comments.map((comment, index) => (
-                  <div key={index} className="p-3 bg-white rounded-lg shadow-sm">
-                    <p className="text-[#23120B]">
-                      <strong>{comment.username}</strong>: {comment.content}
-                    </p>
-                    <p className="text-sm text-[#21209C]">
-                      {comment.createdAt
-                        ? new Date(comment.createdAt).toLocaleString()
-                        : "Unknown date"}
-                    </p>
-                    <button
-                      onClick={() => handleReportComment(comment._id)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      Report
-                    </button>
+                comments.map((comment) => (
+                  <div key={comment._id} className="p-3 bg-white rounded-lg shadow-sm">
+                    {editingCommentId === comment._id ? (
+                      <div>
+                        <textarea
+                          value={editedCommentText}
+                          onChange={(e) => setEditedCommentText(e.target.value)}
+                          className="w-full p-2 border rounded mb-2"
+                          rows="3"
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleUpdateComment(comment._id)}
+                            className="bg-green-500 text-white px-3 py-1 rounded text-sm"
+                          >
+                            Update
+                          </button>
+                          <button
+                            onClick={handleCancelEdit}
+                            className="bg-gray-500 text-white px-3 py-1 rounded text-sm"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className="text-[#23120B]">
+                          <strong>{comment.username}</strong>: {comment.content}
+                        </p>
+                        <p className="text-sm text-[#21209C]">
+                          {comment.createdAt
+                            ? new Date(comment.createdAt).toLocaleString()
+                            : "Unknown date"}
+                        </p>
+                        <div className="flex gap-3 mt-2">
+                          {comment.userId === userId && (
+                            <button
+                              onClick={() => handleEditComment(comment)}
+                              className="text-blue-500 hover:text-blue-700 text-sm"
+                            >
+                              Edit
+                            </button>
+                          )}
+                          {comment.userId !== userId && (
+                            <button
+                              onClick={() => handleReportComment(comment._id, comment.userId)}
+                              className="text-red-500 hover:text-red-700 text-sm"
+                            >
+                              Report
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))
               ) : (
