@@ -86,7 +86,8 @@ import { useState, useEffect } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes, FaUserCircle } from "react-icons/fa";
 import logo from "../images/logo.png";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {clearUserId} from "../../Redux/userSlice"
 
 const useUserData = (userId) => {
   const [userData, setUserData] = useState(null);
@@ -109,6 +110,7 @@ const useUserData = (userId) => {
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -141,6 +143,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token
+    dispatch(clearUserId());
     navigate("/login"); // Redirect to login page
     window.location.reload(); // Refresh to clear Redux state (optional)
   };
